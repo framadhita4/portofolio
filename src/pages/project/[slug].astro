@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import { mockProjects } from '../../data/projects';
+import type { Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return mockProjects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const currentIndex = mockProjects.findIndex(p => p.slug === project.slug);
+const nextIndex = (currentIndex + 1) % mockProjects.length;
+const nextProject = mockProjects[nextIndex];
+---
+
+<Layout title={`${project.title} | FRAMADHIT4°`}>
+  <Navigation />
+  
+  <main class="min-h-screen pt-32 md:pt-48 pb-20 px-6 md:px-12 bg-[#f4f4f0]">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16 md:mb-24">
+        <p class="text-sm uppercase tracking-widest text-gray-500 mb-6 project-reveal opacity-0 translate-y-4">{project.category} — {project.year}</p>
+        <h1 class="font-serif text-5xl md:text-8xl leading-[0.9] tracking-tighter mb-8 project-reveal opacity-0 translate-y-8">{project.title}</h1>
+        <div class="w-full h-px bg-black/10 project-reveal opacity-0 scale-x-0 origin-left"></div>
+        <div class="mt-8 flex flex-wrap gap-8 project-reveal opacity-0 translate-y-4">
+          <div>
+            <h4 class="text-xs uppercase tracking-widest text-gray-400 mb-2">Tech Stack</h4>
+            <p class="text-sm font-medium">{project.tech}</p>
+          </div>
+          <div>
+            <h4 class="text-xs uppercase tracking-widest text-gray-400 mb-2">Role</h4>
+            <p class="text-sm font-medium">Design & Development</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w-full aspect-video overflow-hidden bg-[#e5e5e5] mb-16 md:mb-24 project-image-container opacity-0 translate-y-12 flex items-center justify-center">
+        {project.image ? (
+          <img src={project.image} alt={project.title} class="w-full h-full object-cover project-image transform scale-110" loading="eager" />
+        ) : (
+          <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center border-2 border-gray-300">
+            <span class="text-gray-400 font-serif text-4xl">{project.title}</span>
+          </div>
+        )}
+      </div>
+      
+      <div class="max-w-3xl mx-auto project-content opacity-0 translate-y-8">
+        <h3 class="font-serif text-3xl md:text-4xl mb-6">About the project</h3>
+        <p class="text-lg text-gray-600 font-light leading-relaxed mb-8">
+          {project.description || `This is a detailed case study for ${project.title}, showcasing the design and technical execution of this ${project.category} project. The interface was meticulously crafted to provide an intuitive user experience while maintaining a strong, distinctive visual identity.`}
+        </p>
+        
+        {project.features && project.features.length > 0 && (
+          <div class="mb-16">
+            <h4 class="font-serif text-2xl mb-4">Key Features & Responsibilities</h4>
+            <ul class="list-disc list-outside pl-5 space-y-3 text-lg text-gray-600 font-light leading-relaxed">
+              {project.features.map(feature => (
+                <li>{feature}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-between items-center border-t border-black/10 pt-10">
+          <a href="/" class="group flex items-center gap-3 text-sm uppercase tracking-widest font-medium hover:opacity-70 transition-opacity">
+            <span class="transform group-hover:-translate-x-1 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </span>
+            Back to Index
+          </a>
+          
+          <a href={`/project/${nextProject.slug}`} class="group flex items-center gap-3 text-sm uppercase tracking-widest font-medium hover:opacity-70 transition-opacity">
+            {nextProject.title}
+            <span class="transform group-hover:translate-x-1 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  
+  document.addEventListener('astro:page-load', () => {
+    const tl = gsap.timeline();
+    
+    tl.to('.project-reveal', {
+      y: 0,
+      opacity: 1,
+      scaleX: 1,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power3.out',
+      delay: 0.2
+    })
+    .to('.project-image-container', {
+      y: 0,
+      opacity: 1,
+      duration: 1.2,
+      ease: 'power4.out'
+    }, "-=0.6")
+    .to('.project-image', {
+      scale: 1,
+      duration: 1.5,
+      ease: 'power3.out'
+    }, "-=1.2")
+    .to('.project-content', {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: 'power2.out'
+    }, "-=0.8");
+  });
+</script>

@@ -1,0 +1,103 @@
+---
+const PlusIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
+const XIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
+
+const menuItems = ['Selected Works', 'Profile', 'Services', 'Contact'];
+---
+
+<nav id="main-nav" class="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-difference text-[#f4f4f0]">
+  <a href="/" class="text-xl font-medium tracking-tight">FRAMADHIT4°</a>
+  <!-- <button 
+    id="menu-toggle"
+    class="flex items-center gap-2 hover:opacity-70 transition-opacity uppercase text-xs tracking-widest"
+  >
+    <span id="menu-text">Index</span>
+    <span id="menu-icon-plus" set:html={PlusIcon}></span>
+    <span id="menu-icon-x" class="hidden" set:html={XIcon}></span>
+  </button> -->
+</nav>
+
+<!-- FULLSCREEN MENU OVERLAY -->
+<div id="menu-overlay" class="fixed inset-0 bg-[#1a1a1a] text-[#f4f4f0] z-40 flex flex-col justify-center items-center" style="transform: translateY(-100%);">
+  <ul class="text-center space-y-6 md:space-y-10">
+    {menuItems.map((item) => (
+      <li class="overflow-hidden">
+        <a href="#" class="menu-item inline-block font-serif text-5xl md:text-7xl lg:text-8xl hover:italic" style="transform: translateY(100%); opacity: 0;">
+          {item}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuText = document.getElementById('menu-text');
+  const menuIconPlus = document.getElementById('menu-icon-plus');
+  const menuIconX = document.getElementById('menu-icon-x');
+  const menuItemsElements = document.querySelectorAll('.menu-item');
+  
+  let isMenuOpen = false;
+  let tl: gsap.core.Timeline;
+
+  document.addEventListener('astro:page-load', () => {
+    const nav = document.getElementById('main-nav');
+    const filter = document.getElementById('project-filter');
+
+    if (nav && filter) {
+      gsap.to(nav, {
+        yPercent: -100,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: filter,
+          start: () => `top top+=${nav.offsetHeight}`,
+          end: 'top top',
+          scrub: true,
+        }
+      });
+    }
+    tl = gsap.timeline({ paused: true });
+
+    tl.to('#menu-overlay', {
+      y: '0%',
+      duration: 0.8,
+      ease: 'power4.inOut'
+    })
+    .to('.menu-item', {
+      y: '0%',
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power3.out'
+    }, "-=0.4");
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      
+      if (isMenuOpen) {
+        if (menuText) menuText.textContent = 'Close';
+        menuIconPlus?.classList.add('hidden');
+        menuIconX?.classList.remove('hidden');
+        tl.play();
+      } else {
+        if (menuText) menuText.textContent = 'Index';
+        menuIconPlus?.classList.remove('hidden');
+        menuIconX?.classList.add('hidden');
+        tl.reverse();
+      }
+    }
+
+    menuToggle?.addEventListener('click', toggleMenu);
+    
+    menuItemsElements.forEach(item => {
+      item.addEventListener('click', () => {
+        if (isMenuOpen) toggleMenu();
+      });
+    });
+  });
+</script>

@@ -1,0 +1,71 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+
+// Predefined layout patterns for a more "random" editorial look
+const layouts = [
+  { span: "md:col-span-9", start: "md:col-start-1", mt: "md:mt-0" },      // 0
+  { span: "md:col-span-6", start: "md:col-start-7", mt: "md:mt-32" },     // 1
+  { span: "md:col-span-4", start: "md:col-start-2", mt: "md:mt-16" },     // 2
+  { span: "md:col-span-7", start: "md:col-start-5", mt: "md:mt-48" },     // 3
+  { span: "md:col-span-5", start: "md:col-start-1", mt: "md:mt-24" },     // 4
+  { span: "md:col-span-8", start: "md:col-start-4", mt: "md:mt-12" },     // 5
+  { span: "md:col-span-6", start: "md:col-start-2", mt: "md:mt-40" },     // 6
+  { span: "md:col-span-5", start: "md:col-start-8", mt: "md:mt-16" },     // 7
+];
+
+const layout = layouts[index % layouts.length];
+const colSpan = `col-span-1 ${layout.span}`;
+const alignment = `${layout.start} ${layout.mt}`;
+---
+
+<a href={`/project/${project.slug}`}
+  data-project-category={project.category}
+  class={`project-card group relative flex flex-col opacity-0 translate-y-20 ${colSpan} ${alignment}`}
+>
+  <div class="relative overflow-hidden bg-[#e5e5e5] mb-6 cursor-pointer image-container">
+    <div class="aspect-4/3 w-full overflow-hidden bg-[#f4f4f0] flex items-center justify-center">
+      {project.image ? (
+        <img 
+          src={project.image} 
+          alt={project.title} 
+          class="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-1200 ease-out"
+          loading="lazy"
+        />
+      ) : (
+        <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center border-2 border-gray-300">
+          <span class="text-gray-400 font-serif text-3xl group-hover:scale-105 transition-transform duration-1200 ease-out">{project.title}</span>
+        </div>
+      )}
+    </div>
+    
+    <div class="hover-overlay absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-500 backdrop-blur-sm opacity-0 group-hover:opacity-100">
+      <div class="w-24 h-24 rounded-full bg-[#f4f4f0] text-black flex items-center justify-center transform transition-transform duration-500 scale-0 group-hover:scale-100">
+        <span class="uppercase text-xs tracking-widest font-medium">View</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-start">
+    <div>
+      <h3 class="text-2xl md:text-3xl font-serif mb-2">{project.title}</h3>
+      <p class="text-sm text-gray-500">{project.category}</p>
+    </div>
+    
+    <div class="text-right">
+      <span class="text-sm font-medium">{project.year}</span>
+      
+      <div class="overflow-hidden h-5 mt-1">
+        <p class="text-xs text-gray-400 transform transition-transform duration-500 translate-y-full group-hover:translate-y-0">
+          {project.tech}
+        </p>
+      </div>
+    </div>
+  </div>
+</a>

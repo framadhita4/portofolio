@@ -1,0 +1,191 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import "../styles/global.css";
+import 'lenis/dist/lenis.css';
+import 'nprogress/nprogress.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style is:global>
+      .font-serif { font-family: 'Playfair Display', serif; }
+      .font-sans { font-family: 'Inter', sans-serif; }
+      
+      body { cursor: default; }
+      a, button, .interactive { cursor: pointer; }
+      
+      html { scroll-behavior: smooth; }
+
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f4f4f0; }
+      ::-webkit-scrollbar-thumb { background: #d1d1d1; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #1a1a1a; }
+      
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Disable default Astro crossfade to let GSAP handle the transition */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none !important;
+        mix-blend-mode: normal !important;
+      }
+
+      /* NProgress minimal style */
+      #nprogress .bar {
+        background: #1a1a1a !important;
+        height: 3px !important;
+      }
+      #nprogress .peg {
+        box-shadow: 0 0 10px #1a1a1a, 0 0 5px #1a1a1a !important;
+      }
+      #nprogress .spinner {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-[#f4f4f0] text-[#1a1a1a] font-sans overflow-x-hidden selection:bg-black selection:text-[#f4f4f0]">
+    <!-- Page Transition Curtain -->
+    <div id="page-transition" transition:persist="curtain" class="fixed inset-0 z-90 bg-[#1a1a1a] translate-y-0 pointer-events-none"></div>
+
+    <!-- Initial Loader -->
+    <div id="initial-loader" class="fixed inset-0 z-100 bg-[#1a1a1a] text-[#f4f4f0] flex flex-col items-center justify-center pointer-events-none">
+      <div class="overflow-hidden">
+        <span class="block loader-text font-sans text-4xl md:text-6xl opacity-0 translate-y-full">FRAMADHIT4°</span>
+      </div>
+      <div class="w-48 h-[2px] bg-white/20 mt-8 overflow-hidden">
+        <div class="loader-progress w-full h-full bg-white transform -translate-x-full"></div>
+      </div>
+    </div>
+
+    <slot />
+
+    <script>
+      import Lenis from "lenis";
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import NProgress from 'nprogress';
+
+      NProgress.configure({ showSpinner: false, minimum: 0.2 });
+
+      document.addEventListener('astro:before-preparation', (ev) => {
+        NProgress.start();
+        
+        // Intercept the page load to play our curtain animation first
+        const originalLoader = ev.loader;
+        ev.loader = async function() {
+          await gsap.to('#page-transition', { 
+            y: '0%',
+            duration: 0.6, 
+            ease: 'power3.inOut' 
+          });
+          await originalLoader();
+        };
+      });
+      
+      let lenis: Lenis | null = null;
+      let rafId: number | null = null;
+
+      document.addEventListener('astro:page-load', () => {
+        NProgress.done();
+        
+        // Clean up previous Lenis instance if it exists
+        if (lenis) {
+          lenis.destroy();
+          if (rafId !== null) gsap.ticker.remove(lenis.raf);
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize a new Lenis instance for smooth scrolling
+        lenis = new Lenis();
+
+        // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+        lenis.on('scroll', ScrollTrigger.update);
+
+        // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+        // This ensures Lenis's smooth scroll animation updates on each GSAP tick
+        const tick = (time: number) => {
+          lenis?.raf(time * 1000); // Convert time from seconds to milliseconds
+        };
+        
+        gsap.ticker.add(tick);
+        rafId = tick as any;
+
+        const loader = document.getElementById('initial-loader');
+        const isFirstLoad = loader && !sessionStorage.getItem('siteLoaded');
+
+        if (isFirstLoad) {
+          // First visit: run loader animation and open curtain at the end
+          const tl = gsap.timeline({
+            onComplete: () => {
+              sessionStorage.setItem('siteLoaded', 'true');
+              loader.remove();
+              gsap.set('#page-transition', { y: '100%' }); // Reset for next transition
+            }
+          });
+
+          tl.to('.loader-text', {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out'
+          })
+          .to('.loader-progress', {
+            x: '0%',
+            duration: 1.5,
+            ease: 'power2.inOut'
+          }, "-=0.5")
+          .to('.loader-text', {
+            y: '-100%',
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.in'
+          }, "+=0.2")
+          .to([loader, '#page-transition'], {
+            y: '-100%',
+            duration: 1,
+            ease: 'power4.inOut'
+          }, "-=0.4");
+
+        } else {
+          // Not the first load (either refresh or navigation)
+          if (loader) loader.remove();
+
+          // Slide the transition curtain up to reveal the new page immediately
+          gsap.to('#page-transition', { 
+            y: '-100%', 
+            duration: 0.8,
+            ease: 'power3.inOut',
+            delay: 0.1,
+            onComplete: () => {
+              gsap.set('#page-transition', { y: '100%' }); // Reset for next transition
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

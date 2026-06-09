@@ -1,0 +1,50 @@
+---
+const ArrowUpRightIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
+
+const email = "framadhita@outlook.com"
+---
+
+<footer class="bg-[#1a1a1a] text-[#f4f4f0] p-6 md:p-12 py-20 md:py-32 flex flex-col items-center justify-center text-center footer-container overflow-hidden">
+  <h2 class="font-serif text-5xl md:text-8xl italic mb-10 footer-text opacity-0 translate-y-10">Let's talk.</h2>
+  <a href={`mailto:${email}`} class="footer-link opacity-0 text-lg md:text-2xl font-light hover:italic transition-all border-b border-white/20 pb-2 mb-20 inline-flex items-center gap-4 group">
+    {email}
+    <span class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" set:html={ArrowUpRightIcon}></span>
+  </a>
+  <div class="footer-bottom opacity-0 w-full flex justify-between items-end text-xs md:text-sm uppercase tracking-widest text-gray-500">
+    <span>Based in Bandung</span>
+    <span>Crafted with care</span>
+  </div>
+</footer>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('astro:page-load', () => {
+    const footerTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.footer-container',
+        start: 'top 80%',
+      }
+    });
+
+    footerTl.to('.footer-text', {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: 'power3.out'
+    })
+    .to('.footer-link', {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, "-=0.5")
+    .to('.footer-bottom', {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, "-=0.4");
+  });
+</script>

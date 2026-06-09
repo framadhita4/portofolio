@@ -1,0 +1,49 @@
+---
+const ArrowUpRightIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
+---
+
+<section class="min-h-screen flex flex-col justify-end p-6 md:p-12 pb-20">
+  <p class="text-sm md:text-base uppercase tracking-[0.2em] mb-8 font-medium hero-reveal opacity-0 translate-y-10">Digital Craftsmanship</p>
+  <h1 class="font-serif text-6xl md:text-8xl lg:text-[10rem] leading-[0.9] tracking-tighter mb-12">
+    <div class="overflow-hidden"><span class="block hero-reveal-title opacity-0 translate-y-full">Selected</span></div>
+    <div class="overflow-hidden"><span class="block hero-reveal-title opacity-0 translate-y-full"><span class="italic text-gray-500">Web</span> Works<span class="text-gray-400">©</span></span></div>
+  </h1>
+  
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 border-t border-black/10 pt-8 hero-reveal-bottom opacity-0">
+    <p class="max-w-2xl text-lg text-gray-600 font-light leading-relaxed">
+      A curated archive of crafted web applications and interactive digital experiences. I specialize in bridging the gap between modern design and robust engineering to create intuitive, high-performance digital solutions.
+    </p>
+    <div class="flex gap-4">
+      <span class="text-xs uppercase tracking-widest text-gray-500">Scroll to explore</span>
+      <span class="rotate-135" set:html={ArrowUpRightIcon}></span>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+
+  document.addEventListener('astro:page-load', () => {
+    const tl = gsap.timeline();
+
+    tl.to('.hero-reveal', {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: 'power3.out',
+      delay: 0.2
+    })
+    .to('.hero-reveal-title', {
+      y: 0,
+      opacity: 1,
+      duration: 1.2,
+      stagger: 0.2,
+      ease: 'power4.out'
+    }, "-=0.6")
+    .to('.hero-reveal-bottom', {
+      opacity: 1,
+      duration: 1,
+      ease: 'power2.out'
+    }, "-=0.4");
+  });
+</script>
