@@ -311,6 +311,23 @@ export const mockProjects: Project[] = [
       "Status tracking and notifications to keep guests informed about the progress of their requests.",
     ],
   },
+  {
+    id: 15,
+    slug: "lanadiya-villa-resort",
+    title: "Lanadiya Villa Resort",
+    category: "Booking Platform",
+    year: "2026",
+    size: "large",
+    tech: "React, Laravel",
+    description: "A comprehensive booking platform for Lanadiya Villa Resort.",
+    features: [
+      "Built the main landing page with a modern, responsive design.",
+      "Implemented a comprehensive booking engine for villa and room reservations.",
+      "Developed a detailed guest management system with booking history and preferences.",
+      "Added automated reservation confirmation and email notification system.",
+      "Integrated dynamic pricing rules and availability management.",
+    ],
+  },
 ];
 
 export const categories = [
