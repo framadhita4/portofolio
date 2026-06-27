@@ -314,6 +314,7 @@ export const mockProjects: Project[] = [
   {
     id: 15,
     slug: "lanadiya-villa-resort",
+    image: "/images/project/lanadiya.png",
     title: "Lanadiya Villa Resort",
     category: "Booking Platform",
     year: "2026",
