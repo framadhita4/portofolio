@@ -53,7 +53,8 @@ export const mockProjects: Project[] = [
     category: "AI Platform",
     year: "2026",
     size: "medium",
-    tech: "TypeScript, MCP",
+    image: "/images/project/syntax-tree-codebase-mcp.png",
+    tech: "TypeScript, MCP, Tree Sitter Parser, RAG",
     description:
       "An MCP server that provides AI orchestration agents with an exact, structural understanding of codebases.",
     features: [
