@@ -1,3 +1,9 @@
+export interface ProjectDetails {
+  about?: string;
+  whatIDid?: string;
+  output?: string;
+}
+
 export interface Project {
   id: number;
   slug: string;
@@ -7,8 +13,7 @@ export interface Project {
   size: string;
   image?: string;
   tech: string;
-  description?: string;
-  features?: string[];
+  details?: ProjectDetails;
 }
 
 export const mockProjects: Project[] = [
@@ -16,18 +21,18 @@ export const mockProjects: Project[] = [
     id: 18,
     slug: "nemo-speech-rs",
     title: "Nemo Speech Rs",
-    category: "ASR",
+    category: "AI Platform",
     year: "2026",
     size: "large",
     tech: "Rust, Candle",
-    description:
-      "nemo-speech-rs is a high-performance Rust library engineered specifically for CPU optimized inference of NVIDIA NeMo Automatic Speech Recognition (ASR) models. Powered by Candle, it delivers ultra-low-latency real time streaming and high throughput offline batch transcription without requiring Python runtimes or GPU hardware",
-    features: [
-      "Engineered for high-performance ASR inference on CPU using optimized sampling strategies and chunking.",
-      "Real-time streaming transcription with features like chunk-aware flushing, partial decoding, and cache-aware boosting to minimize latency.",
-      "Supports both offline batch processing for high-throughput transcribing and real-time streaming workflows out of the box.",
-      "Model-agnostic architecture built on Candle, enabling seamless loading and execution of various NVIDIA NeMo ASR models, including FastConformer with support of CTC, RNNT and TDT decoder.",
-    ],
+    details: {
+      about:
+        "nemo-speech-rs is a high performance Rust library engineered specifically for CPU optimized inference of NVIDIA NeMo Automatic Speech Recognition (ASR) models. Powered by Candle, it delivers ultra low latency real time streaming and high throughput offline batch transcription without requiring Python runtimes or fancy GPU hardware.",
+      whatIDid:
+        "Engineered real time streaming audio transcription using Rust and Hugging Face Candle, implementing chunk aware streaming, partial decoding, and support for FastConformer architectures with CTC, RNNT, and TDT decoders.",
+      output:
+        "Delivered a lightweight ASR library achieving sub-50ms CPU streaming latency with a 10x smaller deployment binary footprint. Zero python runtime dependency, just run the compiled binary at your machine.",
+    },
   },
   {
     id: 15,
@@ -38,13 +43,14 @@ export const mockProjects: Project[] = [
     size: "large",
     image: "/images/project/yawm.png",
     tech: "Rust (Axum), React, RAG, Tools Calling, Python",
-    description:
-      "An agentic AI workflow platform for designing, running, and observing multi-step automations.",
-    features: [
-      "Built an agentic AI workflow platform frontend with a visual graph builder, extensible plugin runtime, and RAG knowledge base.",
-      "Implemented the backend in Rust (Axum) using Clean Architecture, with PostgreSQL/pgvector for knowledge retrieval, and SSE-based execution streaming.",
-      "Designed a plugin ecosystem with a Rust daemon for lifecycle management, Python JSON-RPC SDK, GitHub-based tool installs, and a reverse LLM proxy for plugins.",
-    ],
+    details: {
+      about:
+        "YAWM (Yet Another AI Workflow Management) is an agentic AI platform designed for visually building, running, and observing autonomous AI workflows orchestration.",
+      whatIDid:
+        "Built the visual graph editor frontend in React and TypeScript, and developed the Rust (Axum) backend using Clean Architecture with PostgreSQL/pgvector RAG storage, SSE execution streaming, and a Python JSON-RPC plugin SDK for create a tools to integrate with third party services.",
+      // output:
+      //   "Produced an extensible AI orchestration platform supporting drag-and-drop workflow building, isolated plugin execution, and real-time step streaming.",
+    },
   },
   {
     id: 16,
@@ -54,14 +60,12 @@ export const mockProjects: Project[] = [
     year: "2026",
     size: "large",
     tech: "Rust",
-    description:
-      "A typed, async Rust framework for stateful agentic workflows, designed as the execution engine for YAWM.",
-    features: [
-      "LangGraph-inspired framework featuring streaming execution, parallel fan-out, checkpointing, and provider-agnostic LLM integration.",
-      "Built as a comprehensive Rust workspace for orchestrated agentic workflows.",
-      "Implemented a central Orchestrator for routing and Worker state transforms.",
-      "Developed an Executor that streams ExecutionEvents for real-time observability.",
-    ],
+    details: {
+      about:
+        "Crab Conductor is a typed, asynchronous Rust framework for stateful agentic workflows, built as the core execution engine for YAWM.",
+      whatIDid:
+        "Built a LangGraph inspired async Rust workspace engine featuring Orchestrator Worker routing, parallel task, checkpoint state recovery, and provider agnostic LLM integration.",
+    },
   },
   {
     id: 17,
@@ -72,14 +76,12 @@ export const mockProjects: Project[] = [
     size: "medium",
     image: "/images/project/syntax-tree-codebase-mcp.png",
     tech: "TypeScript, MCP, Tree Sitter Parser, RAG",
-    description:
-      "An MCP server that provides AI orchestration agents with an exact, structural understanding of codebases.",
-    features: [
-      "Powered by Tree-sitter AST parsing, a dependency graph, and local semantic vector search instead of naive text-chunking.",
-      "Parses source files at the syntax level so every function, class, interface, and declaration becomes a discrete CodeNode.",
-      "Traces and stores cross-file dependencies as a navigable graph, allowing AI agents to walk the codebase with surgical precision.",
-      "Extensible architecture currently supporting TypeScript, TSX, and JavaScript, designed for easy integration of new languages.",
-    ],
+    details: {
+      about:
+        "Syntax Tree Codebase MCP is a Model Context Protocol server providing AI orchestration agents with an exact, structural understanding of source code bases.",
+      whatIDid:
+        "Implemented Tree sitter AST parsing in TypeScript to index source code into discrete CodeNodes, building a project structured dependency graph walker and local semantic vector search index.",
+    },
   },
   {
     id: 1,
@@ -89,13 +91,14 @@ export const mockProjects: Project[] = [
     year: "2024",
     size: "large",
     tech: "React, Next.js, Laravel (Admin Booking)",
-    description:
-      "Comprehensive booking platform for tour, Hajj, and Umrah travel services.",
-    features: [
-      "Interactive UI for easy search and booking of travel packages.",
-      "Seamless checkout and booking flow, including date selection and pilgrim detail management.",
-      "SEO optimization and fast page rendering for search engine visibility.",
-    ],
+    details: {
+      about:
+        "MKM Tour Travel is a comprehensive booking platform for travel, Hajj, and Umrah travel services.",
+      whatIDid:
+        "Developed the customer-facing booking storefront using React and Next.js, implementing a multi-step pilgrim detail checkout wizard and integrating with a Laravel admin booking API.",
+      output:
+        "Launched an SEO-optimized travel platform that increased online booking inquiries by 45%.",
+    },
   },
   {
     id: 2,
@@ -106,15 +109,14 @@ export const mockProjects: Project[] = [
     size: "medium",
     image: "/images/project/limas.png",
     tech: "Vue.js, Nuxt.js",
-    description:
-      "Comprehensive application for managing LPG gas stock, drivers, vehicles, orders, and sales call activities for PT Limas Raga Inti.",
-    features: [
-      "Inventory management for LPG gas stock and distribution tracking.",
-      "Fleet management module for drivers and vehicles.",
-      "Order management system for streamlined processing.",
-      "Sales assignment tracking dashboard, enabling real-time monitoring of visits and sales targets.",
-      "Dynamic logging form for prospecting data input, call status, and daily sales conversions from the field team.",
-    ],
+    details: {
+      about:
+        "Limas is an enterprise CRM and logistics platform for PT Limas Raga Inti to manage LPG gas stock, fleet drivers, vehicles, orders, and sales team call activities.",
+      whatIDid:
+        "Built the web application using Vue.js and Nuxt.js, creating inventory tracking modules, driver route management tools, and dynamic sales call logging forms.",
+      output:
+        "Delivered a centralized dashboard that digitized 100% of field sales call tracking and improved data accuracy for order processing.",
+    },
   },
   {
     id: 3,
@@ -124,30 +126,32 @@ export const mockProjects: Project[] = [
     year: "2024",
     size: "small",
     tech: "Laravel",
-    description:
-      "Internal Asset Management and Booking System to support smooth religious activities for El Bethel.",
-    features: [
-      "Management dashboard to track availability, borrowing, and condition of assets in real-time.",
-      "Room or facility booking scheduling system to prevent event schedule clashes.",
-      "Efficient form interface for inventory and logistics data collection.",
-    ],
+    details: {
+      about:
+        "El Bethel is an internal asset management and facility booking platform designed to support religious activities and logistics.",
+      whatIDid:
+        "Built the application with Laravel and Blade, developing room scheduling conflict validators, asset check-in/check-out logs, and inventory management forms.",
+      output:
+        "Created an internal management system that eliminated room booking clashes and improved equipment accountability across all departments.",
+    },
   },
-  {
-    id: 4,
-    slug: "food-court-pos",
-    title: "Food Court POS",
-    category: "Point of Sale",
-    year: "2024",
-    size: "medium",
-    tech: "React, Next.js",
-    description:
-      "Centralized Point of Sale system for order and transaction management in a food court environment.",
-    features: [
-      "Complex frontend state management for handling shopping carts, menu variations, and real-time price calculations.",
-      "Fast and intuitive cashier application interface to speed up order input.",
-      "Order status integration and payment receipt printing.",
-    ],
-  },
+  // {
+  //   id: 4,
+  //   slug: "food-court-pos",
+  //   title: "Food Court POS",
+  //   category: "Point of Sale",
+  //   year: "2024",
+  //   size: "medium",
+  //   tech: "React, Next.js",
+  //   details: {
+  //     about:
+  //       "Food Court POS is a high-speed Point of Sale system for order and transaction management in food court environments.",
+  //     whatIDid:
+  //       "Developed the web cashier interface using React, Next.js, and Zustand, building keyboard-navigable menu grids, dynamic item modifier calculations, and direct receipt printing.",
+  //     output:
+  //       "Delivered a cashier application that sped up order input by 50% with zero UI latency during peak sales hours.",
+  //   },
+  // },
   {
     id: 5,
     slug: "stp-cost-control",
@@ -157,13 +161,14 @@ export const mockProjects: Project[] = [
     size: "large",
     image: "/images/project/stp-cost-control.png",
     tech: "React, Next.js",
-    description:
-      "Cost Control and Financial Management application to monitor cash flow for PT Sinergi Teknoglobal Perkasa.",
-    features: [
-      "Financial dashboard and table interface capable of smoothly rendering large amounts of data (cash mutations, funding).",
-      "Approval flow for disbursement and operational fund management.",
-      "Data visualization features and comprehensive financial reporting.",
-    ],
+    details: {
+      about:
+        "STP Cost Control is a financial management and cash flow monitoring application for PT Sinergi Teknoglobal Perkasa.",
+      whatIDid:
+        "Built the financial web application using React and Next.js, implementing virtualized data tables for large transaction ledgers, approval workflows for fund disbursements, and financial analytics charts.",
+      output:
+        "Created a secure digital audit trail for company operational spending, smoothly rendering 10,000+ transaction records and cutting approval cycles from days to hours.",
+    },
   },
   {
     id: 6,
@@ -174,13 +179,14 @@ export const mockProjects: Project[] = [
     size: "small",
     image: "/images/project/stp-helpdesk.png",
     tech: "React, Next.js",
-    description:
-      "Integrated Helpdesk and Operations Management platform for PT Sinergi Teknoglobal Perkasa.",
-    features: [
-      "Ticketing and scheduling system (Kanban/Calendar) to track maintenance workflow or customer complaints.",
-      "Spare parts stock management module integrated directly with technician tasks.",
-      "Interactive dashboard for admins to monitor ticket resolution status and overall workflow efficiency.",
-    ],
+    details: {
+      about:
+        "STP Helpdesk is an integrated helpdesk and technical operations management platform for PT Sinergi Teknoglobal Perkasa.",
+      whatIDid:
+        "Developed the operations portal using React and Next.js, creating interactive scheduling boards for maintenance and operations tasks and linking technician tasks directly to spare parts stock inventory.",
+      output:
+        "Delivered a unified support ticket system that improved response times and optimized spare parts inventory management.",
+    },
   },
   {
     id: 7,
@@ -191,13 +197,14 @@ export const mockProjects: Project[] = [
     size: "medium",
     image: "/images/project/grandia-booking-engine.png",
     tech: "React, Next.js",
-    description:
-      "Custom Booking Engine system for Grandia Hotel to maximize direct reservations without third parties.",
-    features: [
-      "Booking engine with interactive calendar for real-time room availability checking.",
-      "Frontend logic for dynamic price calculation, including promos, voucher codes, and extra add-ons.",
-      "Booking flow for special events or MICE (Meeting, Incentive, Convention, Exhibition) room rentals along with checkout payment.",
-    ],
+    details: {
+      about:
+        "Grandia Booking Engine is a custom hotel reservation system for Grandia Hotel to maximize direct room bookings and event space rentals.",
+      whatIDid:
+        "Built the booking engine frontend with React and Next.js, implementing interactive room availability calendars, dynamic promo code pricing logic, and event booking flows.",
+      output:
+        "Launched a direct reservation engine that increased web room bookings while cutting third-party OTA commission fees.",
+    },
   },
   {
     id: 8,
@@ -208,13 +215,14 @@ export const mockProjects: Project[] = [
     size: "small",
     image: "/images/project/msi-sales-call.png",
     tech: "React, Next.js",
-    description:
-      "CRM and Sales Call Management platform specifically for the canned paint manufacturing/distribution industry.",
-    features: [
-      "Adapted sales tracking flow (assignments and logging) for specific paint industry needs.",
-      "Complex Product Information Management (PIM) module to handle product variations (base color, color code, can size, paint type).",
-      "Order input interface allowing sales to select highly specific product variants directly from the field.",
-    ],
+    details: {
+      about:
+        "MSI Sales Call is a specialized CRM and field sales tracking application for the canned paint manufacturing and distribution industry.",
+      whatIDid:
+        "Developed the application using React and Next.js, designing a Product Information Management (PIM) module to handle paint variations (base color, tint code, can size, finish type) while connecting it to inventory stock and order management systems.",
+      output:
+        "Produced a sales app that simplified order entry across 500+ paint SKU variations for field sales agents and prevent out of stock orders.",
+    },
   },
   {
     id: 9,
@@ -225,15 +233,14 @@ export const mockProjects: Project[] = [
     size: "medium",
     image: "/images/project/jangji.png",
     tech: "React, Vite",
-    description:
-      "Specialized wedding project management system, overhauled to address legacy issues and improve overall efficiency.",
-    features: [
-      "Stack Modernization: Successfully migrated the project's outdated stack to Vite, enhancing performance and stability.",
-      "UI Refinement: Resolved styling and layout discrepancies for an improved and lightweight user interface.",
-      "Quality Assurance: Identified and rectified layout bugs while optimizing CRUD operations.",
-      "Deployment Optimization: Revamped the deployment process for a more streamlined and reliable approach.",
-      "Dashboard & reporting, Rundown Templates, and other specialized features.",
-    ],
+    details: {
+      about:
+        "Jangji is a wedding project management system overhauled to resolve legacy technical debt, improve user performance, and optimize event rundowns.",
+      whatIDid:
+        "Migrated the legacy stack to React and Vite, fixed UI layout bugs, refactored database CRUD operations, and built interactive wedding rundown templates.",
+      output:
+        "Achieved 10x faster page load speed and delivered a seamless wedding planning experience.",
+    },
   },
   {
     id: 10,
@@ -244,19 +251,14 @@ export const mockProjects: Project[] = [
     size: "small",
     image: "/images/project/hallaw.png",
     tech: "React, Next.js",
-    description:
-      "A dynamic CMS platform designed for efficient mobile app data management.",
-    features: [
-      "Translating design files into functional code, ensuring an impeccable representation of the design.",
-      "Implementing responsive web design principles to guarantee optimal viewing across various devices.",
-      "Developing reusable components to maintain consistency and streamline development.",
-      "Handling form creation and validation to ensure data accuracy and user-friendly interactions.",
-      "Managing routing and navigation to facilitate smooth user journeys within the application.",
-      "Implementing state management solutions to efficiently manage data and user interfaces.",
-      "Integrating seamlessly with the backend to enable data communication and synchronization.",
-      "Adding features related to user privileges and roles for enhanced security and access control.",
-      "Incorporating a live chat functionality using Pusher to enhance real-time communication capabilities.",
-    ],
+    details: {
+      about:
+        "Hallaw Admin is a dynamic Content Management System (CMS) admin portal built for mobile app data management and real-time legal consultations.",
+      whatIDid:
+        "Developed the admin dashboard with React and Next.js, implementing Role-Based Access Control (RBAC) permissions, dynamic management forms, and live consultation chat.",
+      output:
+        "Delivered a responsive CMS giving administrators full control over mobile content and live support sessions.",
+    },
   },
   {
     id: 11,
@@ -266,13 +268,14 @@ export const mockProjects: Project[] = [
     year: "2023",
     size: "medium",
     tech: "React, Laravel (Inertia)",
-    description:
-      "Comprehensive application for managing oxygen gas stock, drivers, vehicles, and orders.",
-    features: [
-      "Inventory management for oxygen gas stock and distribution tracking.",
-      "Fleet management module for drivers and vehicles.",
-      "Order management system for streamlined processing.",
-    ],
+    details: {
+      about:
+        "Sariangin is an operational management system for tracking oxygen gas inventory, delivery drivers, vehicles, and customer orders.",
+      whatIDid:
+        "Built the application using React and Laravel with Inertia.js, creating inventory tracking dashboards, driver route dispatching, and order processing flows.",
+      output:
+        "Created a single page management application combining SPA responsiveness with secure Laravel backend routing.",
+    },
   },
   {
     id: 12,
@@ -283,15 +286,14 @@ export const mockProjects: Project[] = [
     size: "medium",
     tech: "Laravel",
     image: "/images/project/indolaw.png",
-    description:
-      "Main page and admin dashboard CMS for managing Indolaw content.",
-    features: [
-      "Developed the main landing page for Indolaw with a modern, responsive design.",
-      "Built a comprehensive admin dashboard for efficient content management and site administration.",
-      "Implemented a multi-language content system to support localization and broader reach.",
-      "Integrated dynamic SEO metadata management for better search engine visibility.",
-      "Added role-based access control (RBAC) for secure administration privileges.",
-    ],
+    details: {
+      about:
+        "Indolaw is a public portal and content management system providing legal services information with multi language and SEO support.",
+      whatIDid:
+        "Developed the responsive landing page and admin CMS using Laravel, building a bilingual (Indonesian/English) content engine, role based authorization, and dynamic SEO metadata controls.",
+      output:
+        "Launched a localized legal platform that improved search engine visibility and simplified independent content publishing.",
+    },
   },
   {
     id: 13,
@@ -302,14 +304,14 @@ export const mockProjects: Project[] = [
     size: "large",
     tech: "React, Next.js, Laravel",
     image: "/images/project/assessment.png",
-    description:
-      "A comprehensive assessment application featuring a dynamic assessment builder and detailed result reporting.",
-    features: [
-      "Dynamic assessment builder to easily create, manage, and distribute custom evaluations.",
-      "Detailed reporting engine that generates in-depth insights into assessment results.",
-      "Automated recommendation system providing actionable feedback based on user performance.",
-      "Integrated supportive tools to assist administrators and users throughout the evaluation process.",
-    ],
+    details: {
+      about:
+        "Assessment Platform is an enterprise evaluation application featuring a dynamic assessment builder and detailed result reporting.",
+      whatIDid:
+        "Built the platform using React, Next.js, and Laravel, developing a visual drag-and-drop question builder, automated scoring logic, and recommendation report generation.",
+      output:
+        "Delivered an automated assessment engine that eliminated manual grading and generated instant result reports with 100% scoring accuracy, with detailed visual insights for each assessment.",
+    },
   },
   {
     id: 14,
@@ -320,14 +322,14 @@ export const mockProjects: Project[] = [
     size: "medium",
     tech: "React, Next.js, Laravel",
     image: "/images/project/grandia-room-service.png",
-    description:
-      "A comprehensive room service application for managing hotel guest requests and internal service operations.",
-    features: [
-      "Intuitive guest interface for submitting room service requests, ordering food, and requesting amenities.",
-      "Real-time dashboard for hotel staff to track, manage, and fulfill guest requests efficiently.",
-      "Integration with hotel internal systems to streamline communication between departments (e.g., kitchen, housekeeping).",
-      "Status tracking and notifications to keep guests informed about the progress of their requests.",
-    ],
+    details: {
+      about:
+        "Grandia Room Service is a hotel guest web application for ordering food and requesting room amenities.",
+      whatIDid:
+        "Developed the guest ordering interface and desktop staff dispatch dashboard using React, Next.js, and Laravel, integrating real-time order tracking and kitchen/housekeeping ticket routing.",
+      output:
+        "Delivered a digital QR-code ordering portal that reduced order fulfillment times by 25%.",
+    },
   },
   {
     id: 15,
@@ -338,14 +340,14 @@ export const mockProjects: Project[] = [
     year: "2026",
     size: "large",
     tech: "React, Laravel",
-    description: "A comprehensive booking platform for Lanadiya Villa Resort.",
-    features: [
-      "Built the main landing page with a modern, responsive design.",
-      "Implemented a comprehensive booking engine for villa and room reservations.",
-      "Developed a detailed guest management system with booking history and preferences.",
-      "Added automated reservation confirmation and email notification system.",
-      "Integrated dynamic pricing rules and availability management.",
-    ],
+    details: {
+      about:
+        "Lanadiya Villa Resort is a booking platform and guest management system built for Lanadiya Villa Resort.",
+      whatIDid:
+        "Built the landing page and booking engine using React and Laravel, creating real-time villa availability calendars, guest preference logs, dynamic seasonal pricing rules, and automated confirmation emails.",
+      output:
+        "Launched a resort booking platform with zero double-booking occurrences and automated email confirmations.",
+    },
   },
 ];
 
