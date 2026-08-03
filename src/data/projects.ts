@@ -19,14 +19,14 @@ export const mockProjects: Project[] = [
     category: "ASR",
     year: "2026",
     size: "large",
-    tech: "Rust, Librosa, Wav2Vec2",
+    tech: "Rust, Candle",
     description:
       "nemo-speech-rs is a high-performance Rust library engineered specifically for CPU optimized inference of NVIDIA NeMo Automatic Speech Recognition (ASR) models. Powered by Candle, it delivers ultra-low-latency real time streaming and high throughput offline batch transcription without requiring Python runtimes or GPU hardware",
     features: [
       "Engineered for high-performance ASR inference on CPU using optimized sampling strategies and chunking.",
       "Real-time streaming transcription with features like chunk-aware flushing, partial decoding, and cache-aware boosting to minimize latency.",
       "Supports both offline batch processing for high-throughput transcribing and real-time streaming workflows out of the box.",
-      "Model-agnostic architecture built on Candle, enabling seamless loading and execution of various NVIDIA NeMo ASR models, including QuartzNet, CitriNet, and FastConformer.",
+      "Model-agnostic architecture built on Candle, enabling seamless loading and execution of various NVIDIA NeMo ASR models, including FastConformer with support of CTC, RNNT and TDT decoder.",
     ],
   },
   {
