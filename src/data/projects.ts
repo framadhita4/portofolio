@@ -24,14 +24,14 @@ export const mockProjects: Project[] = [
     category: "AI Platform",
     year: "2026",
     size: "large",
-    tech: "Rust, Candle",
+    tech: "Rust, OpenBLAS",
     details: {
       about:
-        "nemo-speech-rs is a high performance Rust library engineered specifically for CPU optimized inference of NVIDIA NeMo Automatic Speech Recognition (ASR) models. Powered by Candle, it delivers ultra low latency real time streaming and high throughput offline batch transcription without requiring Python runtimes or fancy GPU hardware.",
+        "nemo-speech-rs is a high performance Rust library engineered specifically for CPU optimized inference of NVIDIA NeMo Automatic Speech Recognition (ASR) models. I built the entire inference engine from scratch, including a custom Tensor framework utilizing OpenBLAS and GEMM for accelerated CPU operations.",
       whatIDid:
-        "Engineered real time streaming audio transcription using Rust and Hugging Face Candle, implementing chunk aware streaming, partial decoding, and support for FastConformer architectures with CTC, RNNT, and TDT decoders.",
+        "Engineered a complete ASR inference engine in Rust from scratch, starting from audio signal preprocessing and normalization, then building the custom Tensor abstraction layer using OpenBLAS for CPU GEMM acceleration. I implemented the full FastConformer ASR architecture including the convolutional encoder, multi-head self-attention (MHSA), and add TDT, CTC, RNN-T decoders support.",
       output:
-        "Delivered a lightweight ASR library achieving sub-50ms CPU streaming latency with a 10x smaller deployment binary footprint. Zero python runtime dependency, just run the compiled binary at your machine.",
+        "Delivered a highly optimized, lightweight compiled library with a binary footprint of less than 10MB. This is drastically smaller compared to the official NVIDIA NeMo speech toolkit, which requires the massive PyTorch library and can take hundreds of megabytes.",
     },
   },
   {
