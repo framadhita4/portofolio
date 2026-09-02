@@ -3,8 +3,17 @@ import { mockProjects } from '../data/projects';
 import ProjectCard from './ProjectCard.astro';
 ---
 
-<section class="p-6 md:p-12 py-20 min-h-screen">
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-x-8 md:gap-y-32" id="projects-grid">
+<section class="min-h-screen px-5 py-20 md:px-12 md:py-28">
+  <div class="mb-20 flex flex-col gap-5 md:mb-28 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h2 class="font-display text-5xl leading-[0.9] md:text-7xl">Selected experiments<br/><span class="text-[#ff4d24]">& Projects</span></h2>
+    </div>
+    <div class="w-fit rotate-2 rounded-2xl border-2 border-[#161616] bg-[#ffd426] px-5 py-4 text-sm font-bold shadow-[5px_5px_0_#161616]">
+      {mockProjects.length} projects and counting ↗
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-y-20 md:grid-cols-12 md:gap-x-8 md:gap-y-28" id="projects-grid">
     {mockProjects.map((project, index) => (
       <ProjectCard project={project} index={index} />
     ))}

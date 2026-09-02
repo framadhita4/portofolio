@@ -22,12 +22,9 @@ const { title } = Astro.props;
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style is:global>
-      .font-serif { font-family: 'Playfair Display', serif; }
-      .font-sans { font-family: 'Inter', sans-serif; }
-      
       body { cursor: default; }
       a, button, .interactive { cursor: pointer; }
       
@@ -55,11 +52,11 @@ const { title } = Astro.props;
 
       /* NProgress minimal style */
       #nprogress .bar {
-        background: #1a1a1a !important;
+        background: #2457ff !important;
         height: 3px !important;
       }
       #nprogress .peg {
-        box-shadow: 0 0 10px #1a1a1a, 0 0 5px #1a1a1a !important;
+        box-shadow: 0 0 10px #2457ff, 0 0 5px #2457ff !important;
       }
       #nprogress .spinner {
         display: none !important;
@@ -76,14 +73,14 @@ const { title } = Astro.props;
       gtag('config', 'G-5024C48197');
     </script>
   </head>
-  <body class="min-h-screen bg-[#f4f4f0] text-[#1a1a1a] font-sans overflow-x-hidden selection:bg-black selection:text-[#f4f4f0]">
+  <body class="min-h-screen bg-[#fffaf1] text-[#161616] font-sans overflow-x-hidden selection:bg-[#ffd426] selection:text-[#161616]">
     <!-- Page Transition Curtain -->
-    <div id="page-transition" transition:persist="curtain" class="fixed inset-0 z-90 bg-[#1a1a1a] translate-y-0 pointer-events-none"></div>
+    <div id="page-transition" transition:persist="curtain" class="fixed inset-0 z-90 bg-[#2457ff] translate-y-0 pointer-events-none"></div>
 
     <!-- Initial Loader -->
-    <div id="initial-loader" class="fixed inset-0 z-100 bg-[#1a1a1a] text-[#f4f4f0] flex flex-col items-center justify-center pointer-events-none">
+    <div id="initial-loader" class="fixed inset-0 z-100 bg-[#2457ff] text-white flex flex-col items-center justify-center pointer-events-none">
       <div class="overflow-hidden">
-        <span class="block loader-text font-sans text-4xl md:text-6xl opacity-0 translate-y-full">FRAMADHIT4°</span>
+        <span class="block loader-text font-display text-4xl md:text-6xl opacity-0 translate-y-full">FRAMADHIT4° <span class="text-[#ffd426]">✦</span></span>
       </div>
       <div class="w-48 h-[2px] bg-white/20 mt-8 overflow-hidden">
         <div class="loader-progress w-full h-full bg-white transform -translate-x-full"></div>

@@ -1,1 +1,91 @@
 @import "tailwindcss";
+
+:root {
+  --ink: #161616;
+  --paper: #fffaf1;
+  --blue: #2457ff;
+  --red: #ff4d24;
+  --yellow: #ffd426;
+  --green: #25b96f;
+  --pink: #ff78b7;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background: var(--paper);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-feature-settings: "ss02" 1, "ss03" 1;
+  background:
+    radial-gradient(circle at 10% 4%, rgb(255 212 38 / 10%), transparent 20rem),
+    radial-gradient(circle at 90% 18%, rgb(255 120 183 / 8%), transparent 24rem),
+    var(--paper);
+}
+
+body::before {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+}
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.font-serif,
+.font-display {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+}
+
+.font-sans { font-family: "Plus Jakarta Sans", sans-serif; }
+.doodle-shadow { box-shadow: 5px 5px 0 var(--ink); }
+.ink-border { border: 2px solid var(--ink); }
+
+.scribble-underline {
+  position: relative;
+  isolation: isolate;
+}
+
+.scribble-underline::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  left: -2%;
+  right: -2%;
+  bottom: 4%;
+  height: 22%;
+  border-radius: 999px 55% 999px 45%;
+  background: var(--yellow);
+  transform: rotate(-1.5deg);
+}
+
+.paper-grid {
+  background-image:
+    linear-gradient(rgb(22 22 22 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(22 22 22 / 5%) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.project-card:nth-child(4n + 1) .project-frame { background: #dce5ff; }
+.project-card:nth-child(4n + 2) .project-frame { background: #ffe0ee; }
+.project-card:nth-child(4n + 3) .project-frame { background: #fff0a8; }
+.project-card:nth-child(4n + 4) .project-frame { background: #d8f6e5; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,33 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class={`doodle-lottie ${className}`} data-doodle-lottie aria-hidden="true"></div>
+
+<script>
+  import lottie from "lottie-web/build/player/lottie_light";
+  import { doodleSpark } from "../animations/doodle-spark";
+
+  const animations: ReturnType<typeof lottie.loadAnimation>[] = [];
+
+  function mountDoodles() {
+    animations.splice(0).forEach((animation) => animation.destroy());
+
+    document.querySelectorAll<HTMLElement>("[data-doodle-lottie]").forEach((container) => {
+      animations.push(lottie.loadAnimation({
+        container,
+        renderer: "svg",
+        loop: true,
+        autoplay: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+        animationData: doodleSpark as never,
+        rendererSettings: { progressiveLoad: true },
+      }));
+    });
+  }
+
+  document.addEventListener("astro:page-load", mountDoodles);
+</script>

@@ -1,18 +1,29 @@
 ---
+import DoodleLottie from './DoodleLottie.astro';
+
 const ArrowUpRightIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
 
 const email = "framadhita@outlook.com"
 ---
 
-<footer class="bg-[#1a1a1a] text-[#f4f4f0] p-6 md:p-12 py-20 md:py-32 flex flex-col items-center justify-center text-center footer-container overflow-hidden">
-  <h2 class="font-serif text-5xl md:text-8xl italic mb-10 footer-text opacity-0 translate-y-10">Let's talk.</h2>
-  <a href={`mailto:${email}`} class="footer-link opacity-0 text-lg md:text-2xl font-light hover:italic transition-all border-b border-white/20 pb-2 mb-20 inline-flex items-center gap-4 group">
-    {email}
-    <span class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" set:html={ArrowUpRightIcon}></span>
-  </a>
-  <div class="footer-bottom opacity-0 w-full flex justify-between items-end text-xs md:text-sm uppercase tracking-widest text-gray-500">
-    <span>Based in Bandung</span>
-    <span>Crafted with care</span>
+<footer class="footer-container relative overflow-hidden border-t-2 border-[#161616] bg-[#2457ff] px-5 py-20 text-white md:px-12 md:py-28">
+  <img src="/images/doodles/contact-doodles.webp" alt="" loading="lazy" class="pointer-events-none absolute -right-24 top-0 h-[62%] w-[70%] object-contain object-right-top opacity-55 md:right-0 md:h-full md:w-[56%] md:opacity-75" />
+
+  <div class="relative z-10 max-w-5xl">
+    <div class="mb-8 flex items-center gap-4">
+      <span class="rounded-full border-2 border-[#161616] bg-[#ffd426] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#161616] shadow-[3px_3px_0_#161616]">Have a project?</span>
+      <DoodleLottie class="h-20 w-20" />
+    </div>
+    <h2 class="footer-text max-w-4xl translate-y-10 font-display text-6xl leading-[0.86] opacity-0 md:text-8xl lg:text-9xl">Let’s make<br/>something <span class="text-[#ffd426]">good.</span></h2>
+    <a href={`mailto:${email}`} class="footer-link group mt-12 inline-flex items-center gap-4 rounded-full border-2 border-[#161616] bg-[#ff78b7] px-5 py-3 text-sm font-extrabold text-[#161616] opacity-0 shadow-[5px_5px_0_#161616] transition-transform hover:-rotate-1 hover:scale-105 md:text-lg">
+      {email}
+      <span class="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" set:html={ArrowUpRightIcon}></span>
+    </a>
+  </div>
+
+  <div class="footer-bottom relative z-10 mt-24 flex w-full items-end justify-between border-t border-white/30 pt-6 text-[10px] font-bold uppercase tracking-[0.14em] opacity-0 md:text-xs">
+    <span>Based in Bandung, ID</span>
+    <span>Designed &amp; built with care ✦</span>
   </div>
 </footer>
 
