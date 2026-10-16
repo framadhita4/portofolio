@@ -1,0 +1,230 @@
+---
+import { mockProjects } from "../data/projects";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<section
+  id="works"
+  class={`py-24 md:py-32 bg-ink text-white overflow-hidden relative ${className}`}
+>
+  <div class="max-w-[1440px] mx-auto px-5 md:px-12 mb-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+      <div>
+        <h2 class="text-5xl md:text-7xl font-bold tracking-[-0.045em] leading-none split-heading text-white">
+          Selected Works
+        </h2>
+        <p class="text-sm text-white/60 mt-3 font-normal">
+          Thoughtful engineering shaped by curiosity, crafted with precision.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="text-xs font-semibold text-white/50 mr-2 hidden sm:inline-block tracking-wider">
+          &lt; DRAG OR SWIPE &gt;
+        </span>
+        <button
+          id="swipe-prev"
+          class="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors text-sm font-bold cursor-pointer select-none text-white"
+          aria-label="Previous project"
+        >
+          ←
+        </button>
+        <div class="px-4 py-2 rounded-full bg-white/10 text-xs font-bold tabular-nums select-none text-white font-mono">
+          <span id="swipe-counter">01</span> / <span id="swipe-total">{String(mockProjects.length).padStart(2, "0")}</span>
+        </div>
+        <button
+          id="swipe-next"
+          class="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors text-sm font-bold cursor-pointer select-none text-white"
+          aria-label="Next project"
+        >
+          →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WebGL Canvas: Portaled full-section layer tracking cards on separate layer -->
+  <canvas
+    id="three-gradient-canvas"
+    class="absolute inset-0 w-full h-full pointer-events-none z-10"
+  ></canvas>
+
+  <!-- Swipeable Deck Viewport: Full-width edge-to-edge without restrictive padding or overflow clipping -->
+  <div
+    id="swipe-viewport"
+    class="relative w-full overflow-visible select-none min-h-[440px] sm:min-h-[520px] md:min-h-[640px] lg:min-h-[740px] xl:min-h-[820px] flex items-center cursor-grab z-20"
+  >
+    <!-- Swiper Track -->
+    <div id="swipe-track" class="swipe-track relative w-full flex items-center">
+      {mockProjects.map((project, index) => (
+        <ProjectCard project={project} index={index} />
+      ))}
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="max-w-[1440px] mx-auto px-5 md:px-12 mt-10">
+    <div class="w-full h-[2px] bg-white/10 relative overflow-hidden rounded-full">
+      <div
+        id="swipe-progress"
+        class="h-full bg-accent transition-all duration-150"
+        style="width: 12%"
+      ></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import SwiperCore from "../lib/swiper/SwiperCore";
+  import GradientRenderer from "../lib/gradient/GradientRenderer";
+  import gsap from "gsap";
+
+  function initWorksSwiper() {
+    const worksSection = document.getElementById("works");
+    const swipeTrack = document.getElementById("swipe-track");
+    const viewport = document.getElementById("swipe-viewport");
+    const canvas = document.getElementById("three-gradient-canvas") as HTMLCanvasElement;
+    const counterEl = document.getElementById("swipe-counter");
+    const totalEl = document.getElementById("swipe-total");
+    const progressEl = document.getElementById("swipe-progress");
+    const dragCursor = document.getElementById("drag-cursor");
+    const prevBtn = document.getElementById("swipe-prev");
+    const nextBtn = document.getElementById("swipe-next");
+
+    if (!swipeTrack || !viewport || !canvas || !worksSection) return;
+
+    function getResponsiveSlides() {
+      const w = window.innerWidth;
+      if (w < 640) return 1.15;
+      if (w < 1024) return 1.35;
+      if (w < 1440) return 1.85;
+      return 2.4;
+    }
+
+    function getResponsiveGap() {
+      const w = window.innerWidth;
+      if (w < 640) return 20;
+      if (w < 1024) return 36;
+      return 56;
+    }
+
+    // Initialize SwiperCore from swipeeeeee
+    const swiper = new SwiperCore(
+      swipeTrack,
+      {
+        visibleSlides: getResponsiveSlides(),
+        gap: getResponsiveGap(),
+        snap: true,
+        snapAlign: "center",
+        dampingPower: 1,
+        dragSensitivity: 0.001,
+        lerpFactor: 0.1,
+        forcePower: 5,
+      },
+      (state) => {
+        // Update Counter & Progress on every tick
+        if (totalEl) {
+          totalEl.textContent = String(state.slideCount).padStart(2, "0");
+        }
+        if (state.slideCount > 0 && counterEl && progressEl) {
+          const offset = swiper.getSnapOffset();
+          const activeIdx =
+            ((Math.round(offset - state.currentPosition) % state.slideCount) +
+              state.slideCount) %
+            state.slideCount;
+          counterEl.textContent = String(activeIdx + 1).padStart(2, "0");
+          const progressPct = ((activeIdx + 1) / state.slideCount) * 100;
+          progressEl.style.width = `${Math.max(6, progressPct)}%`;
+        }
+      }
+    );
+
+    // Initialize WebGL Gradient Renderer on the section canvas layer
+    const gradientRenderer = new GradientRenderer(canvas, worksSection, swiper);
+
+    const onResize = () => {
+      swiper.setOptions({
+        visibleSlides: getResponsiveSlides(),
+        gap: getResponsiveGap(),
+      });
+      gradientRenderer.resize();
+    };
+
+    window.addEventListener("resize", onResize);
+
+    // Smooth GSAP Prev / Next button navigation
+    const swiperState = swiper.getState();
+    let destTarget = swiper.getSnapOffset();
+
+    function navigate(direction: -1 | 1) {
+      if (swiperState.isDragging) return;
+
+      const offset = swiper.getSnapOffset();
+
+      // If mid-tween, chain seamlessly from current destination; otherwise snap from current target
+      if (!gsap.isTweening(swiperState)) {
+        destTarget = Math.round(swiperState.targetPosition - offset) + offset;
+      }
+
+      destTarget += direction;
+
+      gsap.to(swiperState, {
+        targetPosition: destTarget,
+        duration: 0.85,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+    }
+
+    // Stop active button tween immediately if user grabs or touches track to drag
+    viewport.addEventListener("pointerdown", () => {
+      gsap.killTweensOf(swiperState);
+    });
+
+    prevBtn?.addEventListener("click", () => {
+      navigate(1);
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      navigate(-1);
+    });
+
+    // Drag Cursor Floating Pill Interactions
+    if (dragCursor) {
+      viewport.addEventListener("mouseenter", () =>
+        gsap.to(dragCursor, { opacity: 1, scale: 1, duration: 0.25 })
+      );
+      viewport.addEventListener("mouseleave", () =>
+        gsap.to(dragCursor, { opacity: 0, scale: 0.75, duration: 0.25 })
+      );
+      window.addEventListener("mousemove", (e) => {
+        gsap.to(dragCursor, {
+          x: e.clientX + 16,
+          y: e.clientY + 16,
+          duration: 0.15,
+          ease: "power2.out",
+        });
+      });
+    }
+
+    // Lifecycle Cleanup
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        window.removeEventListener("resize", onResize);
+        gsap.killTweensOf(swiperState);
+        swiper.destroy();
+        gradientRenderer.destroy();
+      },
+      { once: true }
+    );
+  }
+
+  document.addEventListener("astro:page-load", initWorksSwiper);
+</script>

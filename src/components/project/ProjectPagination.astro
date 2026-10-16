@@ -1,0 +1,25 @@
+---
+import type { Project } from "../../data/projects";
+
+interface Props {
+  nextProject: Project;
+}
+
+const { nextProject } = Astro.props;
+---
+
+<nav aria-label="Project pagination" class="pt-10 border-t border-line flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+  <a
+    href="/#works"
+    class="px-6 py-3 md:px-8 md:py-4 rounded-full border border-ink/20 font-bold text-xs md:text-sm tracking-tight text-ink hover:border-ink hover:text-accent transition-colors duration-300 text-center inline-flex items-center justify-center gap-2"
+  >
+    [ ← Back to Portfolio ]
+  </a>
+
+  <a
+    href={`/project/${nextProject.slug}`}
+    class="px-6 py-3 md:px-8 md:py-4 rounded-full bg-ink text-paper font-bold text-xs md:text-sm tracking-tight hover:bg-accent transition-colors duration-300 inline-flex items-center justify-center gap-2 text-center"
+  >
+    [ Next: {nextProject.title} → ]
+  </a>
+</nav>

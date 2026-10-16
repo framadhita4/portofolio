@@ -1,88 +1,179 @@
 @import "tailwindcss";
 
-:root {
-  --ink: #161616;
-  --paper: #fffaf1;
-  --blue: #2457ff;
-  --red: #ff4d24;
-  --yellow: #ffd426;
-  --green: #25b96f;
-  --pink: #ff78b7;
+@theme {
+  --font-sans:
+    "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --color-paper: #f4f3ef;
+  --color-ink: #0f0f0e;
+  --color-carbon: #181817;
+  --color-muted: #787670;
+  --color-line: #e2e0d8;
+  --color-accent: #ff3b1d;
 }
 
-* { box-sizing: border-box; }
+:root {
+  --paper: #f4f3ef;
+  --ink: #0f0f0e;
+  --carbon: #181817;
+  --muted: #787670;
+  --line: #e2e0d8;
+  --accent: #ff3b1d;
+}
+
+* {
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  box-sizing: border-box;
+}
+
+::selection {
+  background: #ff3b1d;
+  color: #f4f3ef;
+}
 
 html {
-  background: var(--paper);
+  background-color: #f4f3ef;
+  color: #0f0f0e;
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-feature-settings: "ss02" 1, "ss03" 1;
-  background:
-    radial-gradient(circle at 10% 4%, rgb(255 212 38 / 10%), transparent 20rem),
-    radial-gradient(circle at 90% 18%, rgb(255 120 183 / 8%), transparent 24rem),
-    var(--paper);
+  background-color: #f4f3ef;
+  color: #0f0f0e;
+  overflow-x: hidden;
+  letter-spacing: -0.02em;
 }
 
-body::before {
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
-button, a { -webkit-tap-highlight-color: transparent; }
-
-.font-serif,
-.font-display {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.055em;
+/* Neutomni Style Monumental Typography */
+.text-hero {
+  font-size: clamp(3rem, 8.5vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  font-weight: 700;
 }
 
-.font-sans { font-family: "Plus Jakarta Sans", sans-serif; }
-.doodle-shadow { box-shadow: 5px 5px 0 var(--ink); }
-.ink-border { border: 2px solid var(--ink); }
+.text-statement {
+  font-size: clamp(2.2rem, 5.5vw, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
 
-.scribble-underline {
+/* Text Roll Effect on Hover */
+.roll-link {
   position: relative;
-  isolation: isolate;
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.2;
 }
 
-.scribble-underline::after {
+.roll-link .roll-inner {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roll-link .roll-clone {
   position: absolute;
-  z-index: -1;
-  content: "";
-  left: -2%;
-  right: -2%;
-  bottom: 4%;
-  height: 22%;
-  border-radius: 999px 55% 999px 45%;
-  background: var(--yellow);
-  transform: rotate(-1.5deg);
+  top: 100%;
+  left: 0;
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ff3b1d;
 }
 
-.paper-grid {
-  background-image:
-    linear-gradient(rgb(22 22 22 / 5%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(22 22 22 / 5%) 1px, transparent 1px);
-  background-size: 28px 28px;
+.roll-link:hover .roll-inner,
+.roll-link:hover .roll-clone {
+  transform: translateY(-100%);
 }
 
-.project-card:nth-child(4n + 1) .project-frame { background: #dce5ff; }
-.project-card:nth-child(4n + 2) .project-frame { background: #ffe0ee; }
-.project-card:nth-child(4n + 3) .project-frame { background: #fff0a8; }
-.project-card:nth-child(4n + 4) .project-frame { background: #d8f6e5; }
+/* Word Masking for GSAP Entrance */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.word-inner {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Scrub Word Opacity */
+.scrub-word {
+  opacity: 0.18;
+  transition: opacity 0.2s ease;
+  will-change: opacity;
+}
+
+/* Swipe Track for Project Deck */
+.swipe-track {
+  display: flex;
+  gap: 0;
+  user-select: none;
+  cursor: grab;
+  will-change: transform;
+}
+
+.swipe-track:active {
+  cursor: grabbing;
+}
+
+/* Gradient Meshes for Project Cards */
+.gradient-mesh-1 {
+  background: linear-gradient(135deg, #ff3b1d 0%, #ff8a00 50%, #181817 100%);
+}
+.gradient-mesh-2 {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+.gradient-mesh-3 {
+  background: linear-gradient(135deg, #23074d 0%, #cc5333 100%);
+}
+.gradient-mesh-4 {
+  background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+}
+.gradient-mesh-5 {
+  background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+}
+.gradient-mesh-6 {
+  background: linear-gradient(135deg, #c33764 0%, #1d2671 100%);
+}
+.gradient-mesh-7 {
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+}
+.gradient-mesh-8 {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f3ef;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8c5bc;
+  border-radius: 99px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

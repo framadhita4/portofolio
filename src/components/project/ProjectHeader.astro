@@ -1,0 +1,71 @@
+---
+import type { Project } from "../../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<header class="mb-12 md:mb-16">
+  <!-- Top action and meta pill row -->
+  <div class="project-reveal flex flex-wrap items-center justify-between gap-4 mb-6 opacity-0 translate-y-4">
+    <a
+      href="/#works"
+      class="px-4 py-2 rounded-full border border-ink/20 font-bold text-xs tracking-tight text-ink hover:border-ink hover:text-accent transition-colors duration-300 inline-flex items-center gap-1.5"
+    >
+      [ ← Back to Portfolio ]
+    </a>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="px-3.5 py-1.5 rounded-full border border-line bg-ink/[0.04] text-xs font-semibold tracking-tight text-ink">
+        {project.category}
+      </span>
+      <span class="px-3.5 py-1.5 rounded-full border border-line text-xs font-semibold tabular-nums text-muted">
+        {project.year}
+      </span>
+      {project.featured && (
+        <span class="px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs font-semibold text-accent">
+          ✦ Featured Build
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- Title -->
+  <h1 class="project-reveal text-hero tracking-tight text-ink mb-6 opacity-0 translate-y-8">
+    {project.title}
+  </h1>
+
+  {project.desc && (
+    <p class="project-reveal text-base md:text-xl text-muted font-normal max-w-3xl leading-relaxed mb-8 opacity-0 translate-y-4">
+      {project.desc}
+    </p>
+  )}
+
+  <div class="project-reveal h-[1px] w-full origin-left scale-x-0 bg-line opacity-0 mb-8"></div>
+
+  <!-- Meta Badges -->
+  <div class="project-reveal flex flex-wrap gap-4 opacity-0 translate-y-4 text-xs">
+    <div class="p-4 rounded-2xl border border-line bg-paper flex-1 min-w-[240px]">
+      <span class="block text-[11px] font-semibold text-accent uppercase tracking-wider mb-2">
+        TECH STACK
+      </span>
+      <div class="flex flex-wrap gap-1.5">
+        {project.stack.map((s) => (
+          <span class="px-2.5 py-1 rounded-full border border-line bg-white/80 font-medium text-ink text-[11px]">
+            {s}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <div class="p-4 rounded-2xl border border-line bg-paper min-w-[200px]">
+      <span class="block text-[11px] font-semibold text-muted uppercase tracking-wider mb-2">
+        ROLE & RESPONSIBILITY
+      </span>
+      <p class="text-sm font-semibold text-ink">Full-Cycle System Engineering</p>
+    </div>
+  </div>
+</header>

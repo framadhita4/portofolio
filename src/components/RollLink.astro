@@ -1,0 +1,16 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  target?: string;
+  rel?: string;
+  class?: string;
+}
+
+const { href, label, target, rel, class: className = "" } = Astro.props;
+---
+
+<a href={href} target={target} rel={rel} class={`roll-link ${className}`}>
+  <span class="roll-inner"><slot>{label}</slot></span>
+  <span class="roll-clone" aria-hidden="true"><slot>{label}</slot></span>
+</a>

@@ -1,61 +1,49 @@
 ---
-import DoodleLottie from './DoodleLottie.astro';
+interface Props {
+  class?: string;
+}
 
-const ArrowUpRightIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
-
-const email = "framadhita@outlook.com"
+const { class: className = "" } = Astro.props;
 ---
 
-<footer class="footer-container relative overflow-hidden border-t-2 border-[#161616] bg-[#2457ff] px-5 py-20 text-white md:px-12 md:py-28">
-  <img src="/images/doodles/contact-doodles.webp" alt="" loading="lazy" class="pointer-events-none absolute -right-24 top-0 h-[62%] w-[70%] object-contain object-right-top opacity-55 md:right-0 md:h-full md:w-[56%] md:opacity-75" />
+<footer class={`py-28 md:py-16 px-5 md:px-12 ${className}`}>
+  <div class="max-w-[1440px] mx-auto">
+    <div class="max-w-4xl">
+      <p class="text-xs font-semibold text-accent uppercase tracking-wider mb-4">
+        Have a project in mind?
+      </p>
+      <h2 class="text-hero tracking-tight mb-8 split-heading text-ink">
+        Ready to get your system in shape?
+      </h2>
+      <p class="text-lg md:text-2xl text-muted font-normal max-w-2xl mb-12 leading-relaxed">
+        Treat it like an engineering jam session. We'll map out your
+        architecture, explore ideas, and build something genuinely useful.
+      </p>
 
-  <div class="relative z-10 max-w-5xl">
-    <div class="mb-8 flex items-center gap-4">
-      <span class="rounded-full border-2 border-[#161616] bg-[#ffd426] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#161616] shadow-[3px_3px_0_#161616]">Have a project?</span>
-      <DoodleLottie class="h-20 w-20" />
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          href="mailto:me@framadhita.com"
+          class="px-8 py-4 rounded-full bg-ink text-paper font-bold text-sm hover:bg-accent transition-colors duration-300"
+        >
+          [ me@framadhita.com ]
+        </a>
+        <a
+          href="https://github.com/framadhita"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-8 py-4 rounded-full border border-ink/20 font-bold text-sm hover:border-ink transition-colors duration-300 text-ink"
+        >
+          [ GitHub Profile ↗ ]
+        </a>
+      </div>
     </div>
-    <h2 class="footer-text max-w-4xl translate-y-10 font-display text-6xl leading-[0.86] opacity-0 md:text-8xl lg:text-9xl">Let’s make<br/>something <span class="text-[#ffd426]">good.</span></h2>
-    <a href={`mailto:${email}`} class="footer-link group mt-12 inline-flex items-center gap-4 rounded-full border-2 border-[#161616] bg-[#ff78b7] px-5 py-3 text-sm font-extrabold text-[#161616] opacity-0 shadow-[5px_5px_0_#161616] transition-transform hover:-rotate-1 hover:scale-105 md:text-lg">
-      {email}
-      <span class="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" set:html={ArrowUpRightIcon}></span>
-    </a>
-  </div>
 
-  <div class="footer-bottom relative z-10 mt-24 flex w-full items-end justify-between border-t border-white/30 pt-6 text-[10px] font-bold uppercase tracking-[0.14em] opacity-0 md:text-xs">
-    <span>Based in Bandung, ID</span>
-    <span>Designed &amp; built with care ✦</span>
+    <div class="mt-28 pt-8 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-muted font-medium">
+      <div class="flex items-center gap-3">
+        <span class="font-extrabold text-ink">FRAMADHIT4°</span>
+        <span>—</span>
+        <span>Based in Bandung, ID</span>
+      </div>
+    </div>
   </div>
 </footer>
-
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  document.addEventListener('astro:page-load', () => {
-    const footerTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.footer-container',
-        start: 'top 80%',
-      }
-    });
-
-    footerTl.to('.footer-text', {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: 'power3.out'
-    })
-    .to('.footer-link', {
-      opacity: 1,
-      duration: 0.8,
-      ease: 'power2.out'
-    }, "-=0.5")
-    .to('.footer-bottom', {
-      opacity: 1,
-      duration: 0.8,
-      ease: 'power2.out'
-    }, "-=0.4");
-  });
-</script>

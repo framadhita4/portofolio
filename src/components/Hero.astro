@@ -1,60 +1,118 @@
 ---
-import DoodleLottie from './DoodleLottie.astro';
+import RollLink from "./RollLink.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
 ---
 
-<section class="relative min-h-screen overflow-hidden px-5 pb-12 pt-28 md:px-10 md:pb-16 md:pt-36 lg:px-12">
-  <div class="absolute inset-x-0 top-20 h-[56%] pointer-events-none opacity-75 md:left-auto md:right-[-8%] md:top-8 md:h-[78%] md:w-[62%]">
-    <img src="/images/doodles/hero-doodles.webp" alt="" class="h-full w-full object-contain" fetchpriority="high" />
-  </div>
-
-  <div class="relative z-10 flex min-h-[calc(100vh-10rem)] flex-col justify-between">
-    <div class="mt-auto max-w-[92rem] md:mt-auto md:mb-24">
-      <h1 class="font-display text-[clamp(3rem,13vw,11rem)] leading-[0.78] text-[#161616]">
-        <span class="block overflow-hidden pb-[0.08em]"><span class="hero-reveal-title block translate-y-full opacity-0">I build</span></span>
-        <span class="block overflow-hidden pb-[0.1em]">
-          <span class="hero-reveal-title block translate-y-full opacity-0">
-            <span class="scribble-underline">useful</span> things.
-          </span>
-        </span>
-      </h1>
+<section
+  class={`relative min-h-screen flex flex-col justify-between pt-32 pb-12 px-5 md:px-12 border-b border-line ${className}`}
+>
+  <div class="max-w-[1440px] mx-auto w-full my-auto py-12">
+    <!-- Meta details bar -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8 text-xs font-medium text-muted">
+      <div class="flex items-center gap-2">
+        <span>Bandung, ID — Full-Stack &amp; AI Systems Engineer</span>
+      </div>
     </div>
 
-    <div class="hero-reveal-bottom mt-12 flex flex-col gap-8 border-t-2 border-[#161616] pt-6 opacity-0 md:flex-row md:items-end md:justify-between">
-      <p class="max-w-2xl text-base font-medium leading-relaxed text-[#454545] md:text-lg">
-        Full-stack developer turning ambitious ideas into fast, thoughtful digital products—from AI platforms to everyday business tools.
-      </p>
-      <a href="#project-filter" class="group inline-flex w-fit items-center gap-3 rounded-full border-2 border-[#161616] bg-[#ff78b7] px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] transition-transform hover:-rotate-2 hover:scale-105">
-        Explore the work
-        <span class="text-lg leading-none transition-transform group-hover:translate-y-1">↓</span>
-      </a>
+    <!-- Monumental Headline -->
+    <h1 id="hero-headline" class="text-hero tracking-tight text-ink mb-12 py-2">
+      <span class="block">I build software for</span>
+      <span class="block">people who care</span>
+      <span class="block">
+        as much as <span class="text-accent italic font-light">I do.</span>
+      </span>
+    </h1>
+  </div>
+
+  <!-- Bottom Hero Summary Bar -->
+  <div class="max-w-[1440px] mx-auto w-full pt-8 border-t border-line flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+    <p class="hero-subtext text-sm md:text-base text-muted max-w-xl font-normal leading-relaxed">
+      Turning ambitious operational ideas into fast, thoughtful digital products—from low-latency Rust AI engines to multi-tenant enterprise platforms.
+    </p>
+    <div class="flex items-center gap-6 text-xs font-semibold">
+      <RollLink href="#works">
+        [ Explore 18 projects ↓ ]
+      </RollLink>
+      <RollLink href="https://github.com/framadhita" target="_blank" rel="noopener noreferrer">
+        [ GitHub ↗ ]
+      </RollLink>
     </div>
   </div>
 </section>
 
 <script>
-  import gsap from 'gsap';
+  import gsap from "gsap";
 
-  document.addEventListener('astro:page-load', () => {
-    const tl = gsap.timeline();
+  function splitTextIntoWords(element: HTMLElement, customClass = "word-inner") {
+    if (element.dataset.splitDone) return;
+    element.dataset.splitDone = "true";
 
-    tl.to('.hero-reveal', {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: 'power3.out',
-      delay: 0.2
-    })
-    .to('.hero-reveal-title', {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.2,
-      ease: 'power4.out'
-    }, "-=0.6")
-    .to('.hero-reveal-bottom', {
-      opacity: 1,
-      duration: 1,
-      ease: 'power2.out'
-    }, "-=0.4");
-  });
+    const walk = (node: Node) => {
+      if (node.nodeType === 3) {
+        const text = node.nodeValue || "";
+        const words = text.split(/(\s+)/);
+        const frag = document.createDocumentFragment();
+        words.forEach((w) => {
+          if (/^\s+$/.test(w) || w === "") {
+            frag.appendChild(document.createTextNode(w));
+          } else {
+            const mask = document.createElement("span");
+            mask.className = "word-mask";
+            const inner = document.createElement("span");
+            inner.className = customClass;
+            inner.textContent = w;
+            mask.appendChild(inner);
+            frag.appendChild(mask);
+          }
+        });
+        node.parentNode?.replaceChild(frag, node);
+      } else if (node.nodeType === 1) {
+        Array.from(node.childNodes).forEach(walk);
+      }
+    };
+    walk(element);
+  }
+
+  function initHeroAnimations() {
+    const heroHeadline = document.getElementById("hero-headline");
+    if (!heroHeadline) return;
+
+    splitTextIntoWords(heroHeadline, "hero-word word-inner");
+
+    const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+    heroTl
+      .from(".hero-word", {
+        yPercent: 115,
+        rotateZ: 2,
+        duration: 1.1,
+        stagger: 0.04,
+        delay: 0.1,
+      })
+      .from(
+        ".hero-equation > *",
+        {
+          y: 24,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.05,
+        },
+        "-=0.6"
+      )
+      .from(
+        ".hero-subtext",
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.9,
+        },
+        "-=0.5"
+      );
+  }
+
+  document.addEventListener("astro:page-load", initHeroAnimations);
 </script>

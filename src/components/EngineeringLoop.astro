@@ -1,0 +1,75 @@
+---
+import ProcessCard from "./ProcessCard.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const steps = [
+  {
+    step: "01",
+    stepLabel: "A ━━▶ B",
+    title: "Discovery & System Mapping",
+    description:
+      "Mapping data bottlenecks before writing a single line of code. Understanding where your system stands and what blocks scale.",
+    footer: "ARCHITECTURE & STRATEGY",
+  },
+  {
+    step: "02",
+    stepLabel: "CORE ENGINE",
+    title: "High-Speed Backend & AI",
+    description:
+      "Building resilient APIs, RAG pipelines, MCP servers, and multi-tenant databases using Rust (Axum), Laravel, and TypeScript.",
+    footer: "EXECUTION & AI",
+  },
+  {
+    step: "03",
+    stepLabel: "INTERFACE",
+    title: "Kinetic Frontend Craft",
+    description:
+      "Crafting React, Next.js, and Vue interfaces with tactile GSAP motion and instant responsiveness that users genuinely enjoy.",
+    footer: "MOTION UI & UX",
+  },
+  {
+    step: "04",
+    stepLabel: "ENDURANCE",
+    title: "Production & Evolution",
+    description:
+      "Rigorous observability, zero-downtime deployment, and clean documentation so your engineering team never starts over.",
+    footer: "FULL CIRCLE LAUNCH",
+  },
+];
+---
+
+<section
+  id="process"
+  class={`py-28 md:py-36 px-5 md:px-12 border-b border-line ${className}`}
+>
+  <div class="max-w-[1440px] mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+      <div>
+        <h2 class="text-5xl md:text-7xl font-bold tracking-[-0.045em] leading-none split-heading text-ink">
+          Engineering Loop
+        </h2>
+      </div>
+      <p class="text-sm md:text-base text-muted max-w-md font-normal leading-relaxed">
+        I don't force your product into rigid boilerplate. The architecture bends
+        to fit your exact operational reality.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {steps.map((s) => (
+        <ProcessCard
+          step={s.step}
+          stepLabel={s.stepLabel}
+          title={s.title}
+          description={s.description}
+          footer={s.footer}
+        />
+      ))}
+    </div>
+  </div>
+</section>

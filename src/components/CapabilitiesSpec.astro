@@ -1,0 +1,61 @@
+---
+const faqs = [
+  {
+    num: "01",
+    question: "What areas do you specialize in?",
+    answer:
+      "Full-stack web applications, AI-powered system integrations (RAG pipelines, MCP servers, autonomous agents), multi-tenant SaaS platforms, and scalable backend architectures.",
+  },
+  {
+    num: "02",
+    question: "How do you approach AI integration into software systems?",
+    answer:
+      "I treat AI as a core architectural capability rather than a simple wrapper building reliable agentic workflows, contextual RAG pipelines, and MCP servers seamlessly connected to modern full-stack web stacks (React, Next.js, TypeScript, and robust backend APIs).",
+  },
+  {
+    num: "03",
+    question: "Can you collaborate across timezones?",
+    answer:
+      "Yes. Based in Bandung, Indonesia (GMT+7), working seamlessly async-first or via scheduled sprints with teams across the world",
+  },
+  {
+    num: "04",
+    question: "How do we start a project?",
+    answer:
+      "Send a rough brief, architectural challenge, or repository link to me@framadhita.com. Even a few paragraphs is a great starting point.",
+    isEmail: true,
+  },
+];
+---
+
+<div class="rounded-2xl border border-paper/15 bg-ink p-6 md:p-10 font-sans text-sm leading-relaxed text-paper">
+  <div class="flex items-center justify-between pb-4 mb-6 border-b border-paper/10 text-xs text-muted">
+    <span class="font-mono">CAPABILITIES.md</span>
+  </div>
+
+  <div class="space-y-6 tabular-nums">
+    {faqs.map((faq) => (
+      <div class="flex gap-4">
+        <span class="text-muted/40 select-none w-6 text-right font-mono">{faq.num}</span>
+        <div>
+          <p class="text-accent font-bold mb-1">
+            # {faq.question}
+          </p>
+          <p class="text-paper/80 font-normal">
+            {faq.isEmail ? (
+              <>
+                Send a rough brief, architectural challenge, or repository link to{" "}
+                <a href="mailto:me@framadhita.com" class="underline text-paper hover:text-accent transition-colors">
+                  me@framadhita.com
+                </a>
+                . Even a few paragraphs is a great starting point.
+              </>
+            ) : (
+              faq.answer
+            )}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

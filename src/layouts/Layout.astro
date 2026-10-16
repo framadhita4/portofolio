@@ -3,44 +3,43 @@ import { ClientRouter } from 'astro:transitions';
 import "../styles/global.css";
 import 'lenis/dist/lenis.css';
 import 'nprogress/nprogress.css';
+import DragCursor from '../components/DragCursor.astro';
 
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title = "FRAMADHIT4° — Digital Engineering & Motion Studio",
+  description = "Turning ambitious operational ideas into fast, thoughtful digital products from low-latency Rust AI engines to multi-tenant enterprise platforms."
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="antialiased">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
     <title>{title}</title>
     <ClientRouter />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style is:global>
-      body { cursor: default; }
-      a, button, .interactive { cursor: pointer; }
-      
-      html { scroll-behavior: smooth; }
 
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: #f4f4f0; }
-      ::-webkit-scrollbar-thumb { background: #d1d1d1; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #1a1a1a; }
-      
-      .hide-scrollbar::-webkit-scrollbar {
-        display: none;
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style is:global>
+      body {
+        cursor: default;
       }
-      .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+      a, button, .interactive {
+        cursor: pointer;
       }
 
       /* Disable default Astro crossfade to let GSAP handle the transition */
@@ -50,13 +49,13 @@ const { title } = Astro.props;
         mix-blend-mode: normal !important;
       }
 
-      /* NProgress minimal style */
+      /* NProgress minimal accent style */
       #nprogress .bar {
-        background: #2457ff !important;
-        height: 3px !important;
+        background: #ff3b1d !important;
+        height: 2px !important;
       }
       #nprogress .peg {
-        box-shadow: 0 0 10px #2457ff, 0 0 5px #2457ff !important;
+        box-shadow: 0 0 10px #ff3b1d, 0 0 5px #ff3b1d !important;
       }
       #nprogress .spinner {
         display: none !important;
@@ -69,21 +68,33 @@ const { title } = Astro.props;
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-5024C48197');
     </script>
   </head>
-  <body class="min-h-screen bg-[#fffaf1] text-[#161616] font-sans overflow-x-hidden selection:bg-[#ffd426] selection:text-[#161616]">
-    <!-- Page Transition Curtain -->
-    <div id="page-transition" transition:persist="curtain" class="fixed inset-0 z-90 bg-[#2457ff] translate-y-0 pointer-events-none"></div>
 
-    <!-- Initial Loader -->
-    <div id="initial-loader" class="fixed inset-0 z-100 bg-[#2457ff] text-white flex flex-col items-center justify-center pointer-events-none">
+  <body class="min-h-screen bg-paper text-ink font-sans selection:bg-accent selection:text-paper overflow-x-hidden">
+    <!-- Drag Cursor Pill -->
+    <DragCursor />
+
+    <!-- Page Transition Curtain -->
+    <div
+      id="page-transition"
+      transition:persist="curtain"
+      class="fixed inset-0 z-90 bg-ink translate-y-0 pointer-events-none"
+    ></div>
+
+    <!-- Initial Site Loader -->
+    <div
+      id="initial-loader"
+      class="fixed inset-0 z-100 bg-ink text-paper flex flex-col items-center justify-center pointer-events-none select-none"
+    >
       <div class="overflow-hidden">
-        <span class="block loader-text font-display text-4xl md:text-6xl opacity-0 translate-y-full">FRAMADHIT4° <span class="text-[#ffd426]">✦</span></span>
+        <span class="block loader-text font-extrabold text-3xl md:text-5xl tracking-[-0.04em] opacity-0 translate-y-full">
+          FRAMADHIT4° <span class="text-accent">●</span>
+        </span>
       </div>
-      <div class="w-48 h-[2px] bg-white/20 mt-8 overflow-hidden">
-        <div class="loader-progress w-full h-full bg-white transform -translate-x-full"></div>
+      <div class="w-40 h-[2px] bg-paper/20 mt-6 overflow-hidden rounded-full">
+        <div class="loader-progress w-full h-full bg-accent transform -translate-x-full"></div>
       </div>
     </div>
 
@@ -100,95 +111,133 @@ const { title } = Astro.props;
       document.addEventListener('astro:before-preparation', (ev) => {
         NProgress.start();
         
-        // Intercept the page load to play our curtain animation first
         const originalLoader = ev.loader;
         ev.loader = async function() {
           await gsap.to('#page-transition', { 
             y: '0%',
-            duration: 0.6, 
+            duration: 0.5, 
             ease: 'power3.inOut' 
           });
           await originalLoader();
         };
       });
-      
+
       let lenis: Lenis | null = null;
-      let rafId: number | null = null;
+      let rafId: ((time: number) => void) | null = null;
+
+      function splitTextIntoWords(element: HTMLElement, customClass = "word-inner") {
+        if (element.dataset.splitDone) return;
+        element.dataset.splitDone = "true";
+
+        const walk = (node: Node) => {
+          if (node.nodeType === 3) {
+            const text = node.nodeValue || "";
+            const words = text.split(/(\s+)/);
+            const frag = document.createDocumentFragment();
+            words.forEach((w) => {
+              if (/^\s+$/.test(w) || w === "") {
+                frag.appendChild(document.createTextNode(w));
+              } else {
+                const mask = document.createElement("span");
+                mask.className = "word-mask";
+                const inner = document.createElement("span");
+                inner.className = customClass;
+                inner.textContent = w;
+                mask.appendChild(inner);
+                frag.appendChild(mask);
+              }
+            });
+            node.parentNode?.replaceChild(frag, node);
+          } else if (node.nodeType === 1) {
+            Array.from(node.childNodes).forEach(walk);
+          }
+        };
+        walk(element);
+      }
 
       document.addEventListener('astro:page-load', () => {
         NProgress.done();
-        
-        // Clean up previous Lenis instance if it exists
+
+        // Clean up previous Lenis instance
         if (lenis) {
           lenis.destroy();
-          if (rafId !== null) gsap.ticker.remove(lenis.raf);
+          if (rafId) gsap.ticker.remove(rafId);
         }
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // Initialize a new Lenis instance for smooth scrolling
-        lenis = new Lenis();
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
 
-        // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
         lenis.on('scroll', ScrollTrigger.update);
-
-        // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-        // This ensures Lenis's smooth scroll animation updates on each GSAP tick
         const tick = (time: number) => {
-          lenis?.raf(time * 1000); // Convert time from seconds to milliseconds
+          lenis?.raf(time * 1000);
         };
-        
         gsap.ticker.add(tick);
-        rafId = tick as any;
+        rafId = tick;
 
+        // Animate any split headings across the page
+        document.querySelectorAll<HTMLElement>(".split-heading").forEach((heading) => {
+          splitTextIntoWords(heading, "sec-word word-inner");
+          gsap.from(heading.querySelectorAll(".sec-word"), {
+            scrollTrigger: {
+              trigger: heading,
+              start: "top 85%",
+            },
+            yPercent: 110,
+            duration: 1,
+            stagger: 0.04,
+            ease: "power4.out",
+          });
+        });
+
+        // Initial Loader Handling
         const loader = document.getElementById('initial-loader');
         const isFirstLoad = loader && !sessionStorage.getItem('siteLoaded');
 
         if (isFirstLoad) {
-          // First visit: run loader animation and open curtain at the end
           const tl = gsap.timeline({
             onComplete: () => {
               sessionStorage.setItem('siteLoaded', 'true');
               loader.remove();
-              gsap.set('#page-transition', { y: '100%' }); // Reset for next transition
+              gsap.set('#page-transition', { y: '100%' });
             }
           });
 
           tl.to('.loader-text', {
             y: 0,
             opacity: 1,
-            duration: 1,
+            duration: 0.9,
             ease: 'power3.out'
           })
           .to('.loader-progress', {
             x: '0%',
-            duration: 1.5,
+            duration: 1.2,
             ease: 'power2.inOut'
-          }, "-=0.5")
+          }, "-=0.4")
           .to('.loader-text', {
             y: '-100%',
             opacity: 0,
-            duration: 0.8,
+            duration: 0.6,
             ease: 'power3.in'
-          }, "+=0.2")
+          }, "+=0.1")
           .to([loader, '#page-transition'], {
             y: '-100%',
-            duration: 1,
+            duration: 0.8,
             ease: 'power4.inOut'
-          }, "-=0.4");
-
+          }, "-=0.3");
         } else {
-          // Not the first load (either refresh or navigation)
           if (loader) loader.remove();
-
-          // Slide the transition curtain up to reveal the new page immediately
           gsap.to('#page-transition', { 
             y: '-100%', 
-            duration: 0.8,
+            duration: 0.7,
             ease: 'power3.inOut',
-            delay: 0.1,
+            delay: 0.05,
             onComplete: () => {
-              gsap.set('#page-transition', { y: '100%' }); // Reset for next transition
+              gsap.set('#page-transition', { y: '100%' });
             }
           });
         }

@@ -2,15 +2,21 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import Hero from '../components/Hero.astro';
-import Filter from '../components/Filter.astro';
-import ProjectGrid from '../components/ProjectGrid.astro';
+import ScrubStatement from '../components/ScrubStatement.astro';
+import SelectedWorks from '../components/SelectedWorks.astro';
+import EngineeringLoop from '../components/EngineeringLoop.astro';
+import StackSpec from '../components/StackSpec.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="FRAMADHIT4°">
+<Layout title="FRAMADHIT4° — Digital Engineering & Motion Studio">
   <Navigation />
-  <Hero />
-  <Filter />
-  <ProjectGrid />
+  <main id="main-content">
+    <Hero />
+    <ScrubStatement />
+    <SelectedWorks />
+    <EngineeringLoop />
+    <StackSpec />
+  </main>
   <Footer />
 </Layout>

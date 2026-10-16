@@ -2,6 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import Footer from '../../components/Footer.astro';
+import ProjectHeader from '../../components/project/ProjectHeader.astro';
+import ProjectMedia from '../../components/project/ProjectMedia.astro';
+import ProjectSections from '../../components/project/ProjectSections.astro';
+import ProjectPagination from '../../components/project/ProjectPagination.astro';
 import { mockProjects } from '../../data/projects';
 import type { Project } from '../../data/projects';
 
@@ -23,86 +27,15 @@ const nextIndex = (currentIndex + 1) % mockProjects.length;
 const nextProject = mockProjects[nextIndex];
 ---
 
-<Layout title={`${project.title} | FRAMADHIT4°`}>
+<Layout title={`${project.title} — FRAMADHIT4°`}>
   <Navigation />
   
-  <main class="paper-grid min-h-screen bg-[#fffaf1] px-5 pb-24 pt-32 md:px-12 md:pt-44">
-    <div class="max-w-7xl mx-auto">
-      <div class="mb-14 md:mb-20">
-        <p class="project-reveal mb-7 inline-flex translate-y-4 rounded-full border-2 border-[#161616] bg-[#ffd426] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] opacity-0 shadow-[3px_3px_0_#161616]">{project.category} · {project.year}</p>
-        <h1 class="project-reveal font-display max-w-6xl translate-y-8 text-5xl leading-[0.9] opacity-0 md:text-8xl lg:text-9xl">{project.title}</h1>
-        <div class="project-reveal mt-9 h-0.5 w-full origin-left scale-x-0 bg-[#161616] opacity-0"></div>
-        <div class="project-reveal mt-7 flex translate-y-4 flex-wrap gap-3 opacity-0">
-          <div class="rounded-2xl border-2 border-[#161616] bg-white px-4 py-3">
-            <h4 class="mb-1 text-[10px] font-extrabold uppercase tracking-widest text-[#2457ff]">Tech stack</h4>
-            <p class="text-sm font-bold">{project.tech}</p>
-          </div>
-          <div class="rounded-2xl border-2 border-[#161616] bg-[#d8f6e5] px-4 py-3">
-            <h4 class="mb-1 text-[10px] font-extrabold uppercase tracking-widest text-[#167c4a]">Role</h4>
-            <p class="text-sm font-bold">Design &amp; Development</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="project-image-container mb-20 flex aspect-video w-full translate-y-12 items-center justify-center overflow-hidden rounded-[1.75rem] border-2 border-[#161616] bg-[#dce5ff] p-2 opacity-0 shadow-[8px_8px_0_#161616] md:mb-28">
-        {project.image ? (
-          <img src={project.image} alt={project.title} class="project-image h-full w-full scale-110 rounded-[1.25rem] border-2 border-[#161616] object-cover" loading="eager" />
-        ) : (
-          <div class="paper-grid flex h-full w-full flex-col items-center justify-center rounded-[1.25rem] border-2 border-[#161616] p-8 text-center">
-            <span class="mb-4 text-7xl text-[#ff4d24]">✦</span>
-            <span class="font-display text-4xl">{project.title}</span>
-          </div>
-        )}
-      </div>
-      
-      <div class="project-content mx-auto max-w-3xl translate-y-8 opacity-0">
-        {project.details && (
-          <div class="space-y-10 mb-16">
-            {project.details.about && (
-              <div>
-                <h3 class="font-display mb-4 text-3xl md:text-4xl"><span class="text-[#ff4d24]">01.</span> About the project</h3>
-                <p class="text-lg font-medium leading-relaxed text-[#555]">
-                  {project.details.about}
-                </p>
-              </div>
-            )}
-
-            {project.details.whatIDid && (
-              <div>
-                <h3 class="font-display mb-4 text-3xl md:text-4xl"><span class="text-[#2457ff]">02.</span> What I built</h3>
-                <p class="text-lg font-medium leading-relaxed text-[#555]">
-                  {project.details.whatIDid}
-                </p>
-              </div>
-            )}
-
-            {project.details.output && (
-              <div>
-                <h3 class="font-display mb-4 text-3xl md:text-4xl"><span class="text-[#25b96f]">03.</span> The result</h3>
-                <p class="text-lg font-medium leading-relaxed text-[#555]">
-                  {project.details.output}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-        
-        <div class="flex flex-col items-stretch justify-between gap-5 border-t-2 border-[#161616] pt-9 sm:flex-row sm:items-center">
-          <a href="/" class="group flex items-center justify-center gap-3 rounded-full border-2 border-[#161616] bg-white px-5 py-3 text-xs font-extrabold uppercase tracking-widest transition-transform hover:-rotate-2">
-            <span class="transform group-hover:-translate-x-1 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            </span>
-            Back to Index
-          </a>
-          
-          <a href={`/project/${nextProject.slug}`} class="group flex items-center justify-center gap-3 rounded-full border-2 border-[#161616] bg-[#ffd426] px-5 py-3 text-xs font-extrabold uppercase tracking-widest shadow-[3px_3px_0_#161616] transition-transform hover:rotate-1">
-            {nextProject.title}
-            <span class="transform group-hover:translate-x-1 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </span>
-          </a>
-        </div>
-      </div>
+  <main class="min-h-screen bg-paper px-5 pb-24 pt-32 md:px-12 md:pt-40">
+    <div class="max-w-[1440px] mx-auto">
+      <ProjectHeader project={project} />
+      <ProjectMedia project={project} />
+      <ProjectSections details={project.details} />
+      <ProjectPagination nextProject={nextProject} />
     </div>
   </main>
   
@@ -120,26 +53,26 @@ const nextProject = mockProjects[nextIndex];
       opacity: 1,
       scaleX: 1,
       duration: 1,
-      stagger: 0.15,
+      stagger: 0.12,
       ease: 'power3.out',
-      delay: 0.2
+      delay: 0.1
     })
     .to('.project-image-container', {
       y: 0,
       opacity: 1,
-      duration: 1.2,
+      duration: 1.1,
       ease: 'power4.out'
     }, "-=0.6")
     .to('.project-image', {
       scale: 1,
-      duration: 1.5,
+      duration: 1.3,
       ease: 'power3.out'
-    }, "-=1.2")
+    }, "-=1.0")
     .to('.project-content', {
       y: 0,
       opacity: 1,
-      duration: 1,
+      duration: 0.9,
       ease: 'power2.out'
-    }, "-=0.8");
+    }, "-=0.7");
   });
 </script>

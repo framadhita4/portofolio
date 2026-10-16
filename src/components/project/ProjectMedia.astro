@@ -1,0 +1,45 @@
+---
+import type { Project } from "../../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div class="project-image-container mb-16 md:mb-24 aspect-16/10 md:aspect-21/9 w-full translate-y-12 overflow-hidden rounded-3xl border border-line bg-paper opacity-0 shadow-lg relative group">
+  {project.image ? (
+    <img
+      src={project.image}
+      alt={project.title}
+      class="project-image h-full w-full scale-105 rounded-3xl object-cover transition-transform duration-700 ease-out"
+      loading="eager"
+    />
+  ) : (
+    <div class={`relative h-full w-full ${project.gradient} p-8 md:p-14 flex flex-col justify-between text-paper overflow-hidden`}>
+      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-paper/15 blur-3xl pointer-events-none"></div>
+      
+      <div class="flex items-center justify-between text-xs font-bold tabular-nums z-10">
+        <span class="px-3 py-1.5 rounded-full bg-ink/40 backdrop-blur-md border border-paper/15 text-paper">
+          {project.category}
+        </span>
+        <span class="px-3 py-1.5 rounded-full bg-ink/40 backdrop-blur-md text-paper">
+          {project.year}
+        </span>
+      </div>
+
+      <div class="z-10 my-auto text-center py-8">
+        <span class="inline-block text-accent text-5xl md:text-6xl mb-4 font-bold">✦</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-paper">
+          {project.title}
+        </h2>
+      </div>
+
+      <div class="z-10 flex items-center justify-between text-xs text-paper/70 font-mono border-t border-paper/15 pt-4">
+        <span>FRAMADHIT4° // BUILD ENGINE</span>
+        <span class="tabular-nums">FRM.{project.year}</span>
+      </div>
+    </div>
+  )}
+</div>
