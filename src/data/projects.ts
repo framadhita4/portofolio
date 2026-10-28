@@ -25,6 +25,30 @@ export interface Project {
 export const mockProjects: Project[] = [
   {
     id: 1,
+    slug: "kuorum",
+    title: "Kuorum",
+    subtitle: "Academic Concept Discovery & Autonomous Research Engine",
+    category: "AI Platform",
+    filterGroup: "AI Platform",
+    year: "2026",
+    size: "large",
+    image: "/images/project/kuorum.png",
+    stack: ["Go (Chi)", "React", "TanStack", "CQRS", "LLM", "SSE"],
+    tech: "Go (Chi), React, TanStack, CQRS, LLM, SSE",
+    desc: "Autonomous academic research platform with deep concept decomposition, citation graph traversal, and verbatim-grounded synthesis.",
+    gradient: "gradient-mesh-7",
+    featured: true,
+    details: {
+      about:
+        "Kuorum is an autonomous academic research engine and deep literature synthesis platform designed to explore scientific concepts, traverse citation networks, and generate verifiable grounded research reports.",
+      whatIDid:
+        "Engineered the full-stack system using enterprise Go Clean Architecture and CQRS on the backend, paired with React 19, TypeScript, and TanStack (Router & Query) on the frontend. Developed custom streaming LLM clients, multi-tier composite paper rankers, automated PDF ingestion via Poppler, citation network graph traversal, and a 100% verbatim grounding audit engine.",
+      output:
+        "Delivered an end-to-end autonomous research workspace capable of deconstructing complex queries, screening and ranking hundreds of candidate papers, and generating verifiable synthesis reports with interactive citation mapping in real time via SSE.",
+    },
+  },
+  {
+    id: 2,
     slug: "nemo-speech-rs",
     title: "Nemo Speech Rs",
     category: "AI Platform",
@@ -46,7 +70,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 2,
+    id: 3,
     slug: "yawm",
     title: "YAWM",
     subtitle: "Yet Another AI Workflow Management",
@@ -70,7 +94,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 3,
+    id: 4,
     slug: "crab-conductor",
     title: "Crab Conductor",
     category: "AI Platform",
@@ -92,7 +116,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 4,
+    id: 5,
     slug: "syntax-tree-codebase-mcp",
     title: "Syntax Tree Codebase MCP",
     category: "AI Platform",
@@ -115,7 +139,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 5,
+    id: 6,
     slug: "lanadiya-villa-resort",
     title: "Lanadiya Villa Resort",
     category: "Booking Platform",
@@ -138,7 +162,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 6,
+    id: 7,
     slug: "assessment-platform",
     title: "Assessment Platform",
     category: "Assessment",
@@ -161,7 +185,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 7,
+    id: 8,
     slug: "grandia-booking-engine",
     title: "Grandia Booking Engine",
     category: "Booking Platform",
@@ -184,7 +208,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 8,
+    id: 9,
     slug: "grandia-room-service",
     title: "Grandia Room Service",
     category: "Management System",
@@ -207,7 +231,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 9,
+    id: 10,
     slug: "stp-cost-control",
     title: "STP Cost Control",
     category: "Financial",
@@ -230,7 +254,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 10,
+    id: 11,
     slug: "msi-sales-call",
     title: "MSI Sales Call",
     category: "CRM & Sales",
@@ -253,7 +277,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 11,
+    id: 12,
     slug: "mkm-tour-travel",
     title: "MKM Tour Travel",
     category: "Booking Platform",
@@ -275,7 +299,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 12,
+    id: 13,
     slug: "limas",
     title: "Limas",
     category: "CRM & Sales",
@@ -298,7 +322,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 13,
+    id: 14,
     slug: "el-bethel",
     title: "El Bethel",
     category: "Booking Platform",
@@ -320,7 +344,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 14,
+    id: 15,
     slug: "stp-helpdesk",
     title: "STP Helpdesk",
     category: "Helpdesk",
@@ -343,7 +367,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 15,
+    id: 16,
     slug: "indolaw",
     title: "Indolaw",
     category: "CMS",
@@ -366,7 +390,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 16,
+    id: 17,
     slug: "jangji",
     title: "Jangji",
     category: "Management System",
@@ -389,7 +413,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 17,
+    id: 18,
     slug: "hallaw-admin",
     title: "Hallaw Admin",
     category: "CMS",
@@ -412,7 +436,7 @@ export const mockProjects: Project[] = [
     },
   },
   {
-    id: 18,
+    id: 19,
     slug: "sariangin",
     title: "Sariangin",
     category: "Management System",
@@ -436,7 +460,7 @@ export const mockProjects: Project[] = [
 ];
 
 export const filterGroups = [
-  { id: "all", label: "All (18)" },
+  { id: "all", label: "All (19)" },
   { id: "AI Platform", label: "AI Platform" },
   { id: "Booking Platform", label: "Booking Platform" },
   { id: "Management System", label: "Management System" },

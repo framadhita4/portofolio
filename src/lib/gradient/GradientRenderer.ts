@@ -7,6 +7,13 @@ import type { SwiperCore } from "../swiper/SwiperCore";
  * Formula: color(t) = a + b * cos(2 * PI * (c * t + d))
  */
 export const PROJECT_GRADIENT_SCHEMES: Record<string, THREE.Vector3[]> = {
+  // Kuorum: Academic concept discovery & autonomous research engine -> Deep academic indigo, electric violet, crisp cyan
+  kuorum: [
+    new THREE.Vector3(0.35, 0.45, 0.95),
+    new THREE.Vector3(0.3, 0.35, 0.45),
+    new THREE.Vector3(1.0, 1.0, 1.0),
+    new THREE.Vector3(0.1, 0.35, 0.65),
+  ],
   // 1. Nemo Speech Rs: Rust ASR inference engine -> Fiery rust orange, flame amber, deep copper
   "nemo-speech-rs": [
     new THREE.Vector3(0.9, 0.45, 0.1),
